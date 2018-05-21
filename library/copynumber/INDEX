@@ -1,0 +1,31 @@
+aspcf                   Allele-specific copy number segmentation.
+callAberrations         Call aberrations in segmented data
+getGRangesFormat        Get segments on the GRanges format
+imputeMissing           Impute missing copy number values
+interpolate.pcf         Interpolation of pcf-estimates.
+logR                    Artificial SNP array data
+lymphoma                3K aCGH data
+micma                   Subset of 244K aCGH data
+multipcf                Multi-sample copy number segmentation.
+pcf                     Single-sample copy number segmentation.
+pcfPlain                Plain single-sample copy number segmentation.
+plotAberration          Plot areas with copy number aberrations
+plotAllele              Plot SNP data and/or aspcf segmentation results
+plotChrom               Plot copy number data and/or segmentation
+                        results by chromosome
+plotCircle              Plot a circular genome with aberration
+                        frequencies and connections between genomic
+                        loci added.
+plotFreq                Plot percentage of samples with an aberration
+                        at a genomic position
+plotGamma               Plot segmentation results for several values of
+                        gamma
+plotGenome              Plot copy number data and/or segmentation
+                        results
+plotHeatmap             Plot copy number heatmap
+plotSample              Plot copy number data and/or segmentation
+                        results by sample
+selectSegments          Select multipcf segments
+subsetData              Retrieve a data subset
+subsetSegments          Retrieve a subset of segments
+winsorize               Winsorization of copy number data

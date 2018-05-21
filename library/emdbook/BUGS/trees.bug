@@ -1,0 +1,13 @@
+model {
+  for (i in 1:Ntree) {
+     a[i] ~ dlnorm(mu.a,tau.a)
+     for (j in 1:Ntrap) {
+        expdens[i,j] <- area[i,j]*fec*a[i]*exp(-a[i]*dist[i,j])/(2*pi*dist[i,j])
+        dens[i,j] ~ dnegbin(k/(expdens[i,j]+k),k)
+     }
+  }
+  mu.a ~ dgamma(0.001,0.001)
+  tau.a ~ dgamma(0.001,0.001)
+  k ~ dgamma(0.001,0.001)
+  fec ~ dlnorm(7,0.001)
+}

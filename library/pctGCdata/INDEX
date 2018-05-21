@@ -1,0 +1,8 @@
+getGCpct                Function to get GC percentages at specific
+                        genomic positions
+hg18                    GC percentages for human genome build hg18
+hg19                    GC percentages for human genome build hg19
+hg38                    GC percentages for human genome build hg38
+mm10                    GC percentages for mouse genome build mm10
+mm9                     GC percentages for mouse genome build mm9
+pctGCdata-package       \packageTitlepctGCdata

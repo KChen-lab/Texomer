@@ -1,0 +1,10 @@
+model {
+  for (i in 1:n) {
+    time[i] ~ dweib(shape,lambda)
+  }
+  scale <- pow(lambda,-1/shape)
+  mean <- scale*exp(loggam(1+1/shape))
+  ## priors
+  shape ~ dunif(0,5)
+  lambda ~ dunif(0,1)
+}

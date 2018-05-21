@@ -1,0 +1,27 @@
+export(	winsorize,
+		multipcf, 
+		pcf,
+		aspcf, 
+		plotChrom, 
+		plotGenome, 
+		plotSample, 
+		plotAllele, 
+		plotFreq, 
+		plotHeatmap, 
+		plotGamma,
+		plotAberration,
+		imputeMissing,
+		subsetData,
+		subsetSegments,
+		selectSegments,
+		plotCircle,
+		callAberrations,
+		interpolate.pcf,
+		pcfPlain,
+		getGRangesFormat
+		)
+import(S4Vectors)
+importFrom(IRanges, IRanges)
+importFrom(GenomicRanges, GRanges)
+importFrom(GenomicRanges, "mcols<-")
+

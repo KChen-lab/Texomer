@@ -1,0 +1,26 @@
+## exportPattern("^[^\\.]")
+export(lambertW,lWasymp,lambertW_base,
+       get.emdbook.packages,
+       deltavar,deltamethod,
+       metropSB,trcoef,
+       lseq,scinot,axis.scinot,
+       tcredint,ncredint,
+       as.mcmc.bugs,lump.mcmc.list,perturb.params,
+       HPDregionplot,
+       dzinbinom,rzinbinom,
+       rchibarsq,dchibarsq,pchibarsq,qchibarsq,
+       dmvnorm,dbetabinom,rbetabinom,
+       calcslice,gridsearch2d,contour3d,apply2d,curve3d)
+## importFrom(rgl,persp3d,lines3d)
+importFrom(MASS,kde2d)
+importFrom(coda,mcmc)
+importFrom(bbmle,parnames)
+importFrom(plyr,aaply)
+importFrom(lattice,wireframe)
+importFrom("grDevices", "contourLines")
+importFrom("graphics", "axTicks", "axis", "contour", "image",
+             "locator", "mtext", "par", "persp", "rect")
+importFrom("stats", "D", "approx", "coef", "dchisq", "dnbinom",
+             "na.omit", "pchisq", "plogis", "qchisq", "qlogis", "rbeta",
+             "rbinom", "rchisq", "rnbinom", "runif", "uniroot", "var")
+importFrom("utils", "install.packages", "installed.packages")

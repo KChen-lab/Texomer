@@ -1,0 +1,415 @@
+\documentclass[a4paper]{article}
+
+%\VignetteIndexEntry{Introduction to the copynumber package}
+%\VignettePackage{copynumber}
+%\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{Sweave}
+\RequirePackage{graphicx,ae,fancyvrb}
+%\usepackage[utf8]{inputenc}
+
+\setlength{\textheight}{8.5in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\evensidemargin}{0.25in}
+
+\title{An overview of the copynumber package}
+\author{Gro Nilsen}
+
+\begin{document}
+\setkeys{Gin}{width=0.99\textwidth}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+This document gives an overview and demonstration of the \verb copynumber  package, which provides tools for the segmentation and visualization of copy number data. In the analysis of such data a goal is to detect and locate areas of the genome with copy number abberations. This may help identify genes that are critical to the development and progression of cancer. To locate areas or segments of equal copy numbers, our methods make \emph{Piecewise Constant Fits} to the data through penalized least squares minimization \cite{nilsen12}. That is, piecewise constant curves are fitted to the data by minimizing the distance between the curve and the observed data, while imposing a penalty for each discontinuity in the curve. Segmentation may be done on a single sample, simultaneously on several samples or simultaneously on different data tracks.
+
+\section{Overview}
+Figure \ref{fig:overview} gives an overview of the \verb copynumber  package and illustrates the natural workflow. Each part of this workflow is described below.
+
+\begin{figure}[!h!t!b]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{overview.pdf}
+\end{center}
+\caption{An overview of the copynumber package.}
+\label{fig:overview}
+\end{figure}
+
+
+\subsection{Data input}
+The data input in the \verb copynumber  package is normalized and log-transformed copy number measurements, for one or several samples. Allele-frequencies may also be specified for the segmentation of SNP-array data.  
+
+The data should be organized as a data matrix where each row represents a probe, and the first two columns give the chromosomes and genomic positions (locally in the chromosome) corresponding to each probe. Subsequent columns should hold the copy number measurements for each sample, and the header of these sample columns should be a sample identifier. For SNP-array data two such data matrices are required; one holding the LogR copy numbers and the other holding the B-allele frequencies (BAF).
+
+\subsection{Preprocessing}
+\subsubsection{Outlier handling}
+Outliers are common in copy number data, and may have a substantial negative effect on the segmentation results. It is therefore strongly recommended to detect and modify extreme observations prior to segmentation. In the package we do this by Winsorization, and the method \verb winsorize  is available for this purpose.
+
+\subsubsection{Imputation of missing data}
+The method \verb imputeMissing  may be used for the imputation of missing copy number measurements. The user may decide on imputation by a constant or by an estimate based on the pcf-value (see below) of the nearest non-missing probes. 
+
+\subsection{Segmentation}
+
+\subsubsection{Segmentation tools}
+The \verb copynumber  package provides three segmentation tools. The method \verb pcf  handles the single-sample case, where segmentation is done independently for each sample in the data set, and the break points thus differ from sample to sample. The method \verb multipcf  runs on multiple samples simultaneously, and fits segmentation curves with common break points for all samples. The segment values will for each sample be equal to its average measurement on the segment. The third method, \verb aspcf , is intended for SNP array data and performs allele-specific segmentation. This results in segmentation curves where break points are common for LogR and BAF data in the individual samples.
+
+\subsubsection{Choose model parameters}
+The most important parameter to set in the segmentation routines is \verb gamma , which determines the penalty to be applied for each discontinuity or break point in the segmentation curve. Note that the default value will not be appropriate for all data sets; it may depend on the purpose of the study and artifacts may arise from the experimental procedure. Hence it is typically necessary to test a number of \verb gamma  values to find the optimal one. A valuable tool in this context is the diagnostic tool \verb plotGamma , where segmentation is run for 10 different values of \verb gamma  and results are then displayed in a multigrid plot. This allows the user to explore the appropriateness of each segmentation result. Another parameter that influences the segmentation result is \verb kmin, which imposes a minimum length (number of probes) for each segment.
+
+\subsection{Visualization}
+Several tools are available in the package for the plotting of data and segmentation results. These include \verb plotGenome , \verb plotSample , and \verb plotChrom  where data and/or segments are plotted over the entire genome, for a given sample across different chromosomes and for a given chromosome across different samples, respectively. Other graphical tools include \verb plotHeatmap , which plots copy numbers heatmaps, and \verb plotFreq , which plots the frequency of samples with an aberration at a genomic position. In addition, \verb plotCircle  enables the plotting of the genome as a circle with aberration frequencies and connections between genomic loci added to the middle of the circle. 
+
+\section{Data sets}
+The package includes three data sets that are used in the examples below:
+\begin{itemize}
+  \item \verb lymphoma : 3K aCGH data for a subset of 21 samples \cite{eide10}.
+  \item \verb micma : A subset of a 244K aCGH data set. Contains data on chromosome 17 for 6 samples \cite{mathiesen11}.
+  \item \verb logR  and \verb BAF : Artificial 10K SNP array data for 2 samples.
+\end{itemize}
+
+
+\section{Examples}
+The following examples illustrate some applications of the \verb copynumber  package. First, load the package in R:
+
+<<>>=
+library(copynumber)
+@
+
+\subsection{Single-sample segmentation}
+In this example we will use the \verb lymphoma  data:
+<<>>=
+data(lymphoma)
+@
+The data set has chromosomes and probe positions in the two first columns, and the copy number measurements for 21 samples in the subsequent columns. In this example we will only use a subset containing the first 3 samples, which corresponds to three biopsies from one patient taken at different time points. We can use the function \verb subsetData  to retrieve the desired data subset:
+<<>>=
+sub.lymphoma <- subsetData(data=lymphoma,sample=1:3) 
+sub.lymphoma[1:10,]
+@
+
+Next we identify and modify outliers by the function \verb winsorize : 
+<<>>=
+lymph.wins <- winsorize(data=sub.lymphoma,verbose=FALSE)
+@
+The parameter \verb verbose=FALSE  just keeps the function from printing a progress message each time the analysis is finished for a new chromosome arm. The primary output from \verb winsorize  is then a new data frame (\verb lymph.wins ) on the same format as the input data where the sample columns now contain the Winsorized data values:
+<<>>=
+lymph.wins[1:10,]
+@ 
+In addition, if the parameter \verb return.outliers  is set to \verb TRUE , the method also returns a data frame which shows which observations have been classified as outliers:
+<<>>=
+wins.res <- winsorize(data=sub.lymphoma,return.outliers=TRUE,verbose=FALSE)
+wins.res$wins.outliers[1:10,]
+@
+The values 1 and -1 indicate outliers, reflecting that the original observation has been truncated to a smaller and higher value, respectively. The value 0 indicates that the observation is not an outlier and that the Winsorized value is identical to the original value. Note that one may obtain the winsorized data values in this setting by \verb wins.res$wins.data .
+
+Next we want to fit segmentation curves to each of the samples in our data using the function \verb pcf . When Winsorization has been done, the Winsorized data should be the input (if one wants the segment values to equal the means of the observed data instead of the Winsorized data, one may in addition give the original data as input via the parameter \verb Y=sub.lymphoma  ). The penalty parameter \verb gamma  is in this case set to 12 to achieve high sensitivity on these low-resolution data. 
+<<>>=
+single.seg <- pcf(data=lymph.wins,gamma=12,verbose=FALSE)
+@
+
+The default output of \verb pcf  is a data frame with 7 columns giving information about each segment found in the data. SampleIDs are given in the first column. Below we see the first six segments found in the subset of lymphoma samples:
+<<>>=
+head(single.seg)
+@
+
+After the segmentation one may plot the data along with the segmentation results to see how well the segmentation fits the data. To plot the copy number data and the segmentation results over the entire genome we apply the function \verb plotGenome , as illustrated in Figure \ref{fig:plotGenome} for one of the samples.    
+
+<<label=genomeFile, echo=FALSE>>=
+png("plotGenome.png", width = 900, height = 500)
+@
+
+<<label=plotGenome>>=
+plotGenome(data=sub.lymphoma,segments=single.seg,sample=1,cex=3) 
+@
+
+<<label=genomeClose, echo=FALSE>>=
+null <- dev.off()
+@
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics{plotGenome.png}
+\caption{Genome plot for the sample X01.B1. Segmentation done by pcf.}
+\label{fig:plotGenome}
+\end{center}
+\end{figure}
+
+                                                                                                            
+Another plotting option is \verb plotSample , where the data and segmentation results are shown for one sample with chromosomes in different panels. This is shown for the first sample in Figure \ref{fig:plotSample}. Chromosome ideograms are by default added to the bottom of the plots.
+
+<<label=sampleFile, echo=FALSE>>=
+png("plotSample.png", width = 900, height = 700)
+@
+
+<<label=plotSample>>=
+plotSample(data=sub.lymphoma,segments=single.seg,layout=c(5,5),sample=1,cex=3)
+@
+
+<<label=sampleClose, echo=FALSE>>=
+null <- dev.off()
+@
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics{plotSample.png}
+\caption{Sample X01.B1 plotted across the 23 chromosomes. Segmentation done by pcf.}
+\label{fig:plotSample}
+\end{center}
+\end{figure}
+
+
+\subsection{Multi-sample segmentation}
+In the second example we illustrate multi-sample segmentation using the function \verb multipcf  on the three successive biopsies for sample X01. Input parameters and the output is similar to that of \verb pcf , but the data frame holding the segmentation results now have common rows for all samples since they all have common segment boundaries:
+<<>>=
+multi.seg <- multipcf(data=lymph.wins,verbose=FALSE)
+head(multi.seg)
+@
+
+To compare the segmentation results between samples we may use the function \verb plotChrom. Here data and segments are plotted for one chromosome with samples in different panels, as illustrated in Figure \ref{fig:chromPlot}. 
+
+<<label=chromFile, echo=FALSE>>=
+png("chromPlot.png", width = 480, height=480)
+@
+
+<<label=chromPlot>>=
+plotChrom(data=lymph.wins,segments=multi.seg,layout=c(3,1),chrom=1)
+@
+
+<<label=chromClose, echo=FALSE>>=
+null <- dev.off()
+@
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics{chromPlot.png}
+\caption{Chromosome 1 plotted for the 3 biopsies taken at different time points for sample X01. Segmentation done by multipcf.}
+\label{fig:chromPlot}
+\end{center}
+\end{figure}
+
+
+
+\subsection{Allele-specific segmentation}
+To illustrate allele-specific segmentation, we apply the artificial SNP-array data set containing both LogR data and BAF data:
+<<>>=
+data(logR)
+data(BAF)
+@
+We start by Winsorizing the LogR data:
+<<>>=
+logR.wins <- winsorize(logR,verbose=FALSE)
+@ 
+The function \verb aspcf  will perform the allele-specific segmentation, taking both (Winsorized) LogR data and BAF data as input:
+<<>>=
+allele.seg <- aspcf(logR.wins,BAF,verbose=FALSE)
+head(allele.seg) 
+@
+Note that the output is similar to that of \verb pcf , except for an extra 8'th column giving the segment BAF-values. 
+
+The function \verb plotAllele  may be used to plot the data and the segmentation results. For a given sample the results are shown for both the LogR- and BAF-track with chromosomes in different panels, as illustrated in Figure \ref{fig:aspcfplot} for the first sample on chromosomes 1-4.
+
+<<label=aspcfFile, echo=FALSE>>=
+png("plotAllele.png", width = 800, height = 500)
+@
+
+<<label=chromPlot>>=
+plotAllele(logR,BAF,allele.seg,sample=1,chrom=c(1:4),layout=c(2,2))
+@
+
+<<label=aspcfClose, echo=FALSE>>=
+null <- dev.off()
+@
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics{plotAllele.png}
+\caption{Allele-specific plot for one sample on chromosomes 1-4. Segmentation done by aspcf.}
+\label{fig:aspcfplot}
+\end{center}
+\end{figure}
+
+
+\subsection{Other graphical tools}
+\subsubsection{Frequency plot}
+A useful graphical tool is \verb plotFreq , where we plot the frequency of samples in the data set with a gain or a loss at a genomic position. In this example we use \verb pcf  to obtain copy number estimates for the entire lymphoma data set:
+<<>>=
+lymphoma.res <- pcf(data=lymphoma,gamma=12,verbose=FALSE)
+@
+Gains and losses will be regions where the copy number estimate is above or below some defined thresholds specified by the parameters \verb thres.gain  and \verb thres.loss  , respectively.
+
+<<label=freqFile, echo=FALSE>>=
+png("freqPlot.png", width = 800, height = 400)
+@
+
+<<label=freqPlot>>=
+plotFreq(segments=lymphoma.res,thres.gain=0.2,thres.loss=-0.1)
+@
+
+<<label=freqClose, echo=FALSE>>=
+null <- dev.off()
+@
+
+Figure \ref{fig:freqPlot} shows the percentage of samples with estimated $\log_{2}$ copy number ratios above the threshold $0.2$ (gain) in red and below the threshold $-0.1$ (loss) in green. Frequencies may also be plotted per chromosome by specifying chromosomes in the parameter \verb chrom .   
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics{freqPlot.png}
+\caption{Frequencyplot for lymphoma data}
+\label{fig:freqPlot}
+\end{center}
+\end{figure}
+
+\subsubsection{Circle plot}
+A similar plotting routine is \verb plotCircle  which also shows the aberration frequencies, but unlike \verb plotFreq  the genome is here represented as a circle. The input is again copy number estimates, and aberrations are defined as described above. In addition to plotting aberration frequencies one may show associations between certain genomic regions by specifying the parameter \verb arcs  as input. This should be a matrix giving the chromosomes and positions for regions that are connected, as well as a column specifying whether there are different types of associations. One example of use is to plot strong interchromosomal correlations between pairs of segments found by \verb multipcf . 
+
+Below, we assume that \verb multipcf  has been run on the \verb lymphoma  data, and we have calculated the interchromosomal correlations between all segment pairs (see the help file for \verb plotCircle  for details). Say strong positive correlations were found between a segment with middle position 168754669 on chromosome 2 and a segment with middle position 61475398 on chromosome 14, as well as between a segment with middle position 847879349 on chromosome 12 and a segment with middle position 30195556 on chromosome 21. In addition, a strong negative correlation was found between a segment with middle position 121809306 on chromosome 4 and a segment with middle position 12364465 on chromosome 17. 
+Having found the location of the associations we want to visualize we can then define the matrix \verb arcs  holding the chromosome number and position of a segment in the first two columns, and the chromsome number and position of the associated segment in the next two columns. The fifth column identifies positive correlations and negative correlations as class 1 and 2, respectively:
+<<>>=
+chr.from <- c(2,12,4)
+pos.from <- c(168754669,847879349,121809306)
+chr.to <- c(14,21,17)
+pos.to <- c(6147539,301955563,12364465)
+cl <- c(1,1,2)
+arcs <- cbind(chr.from,pos.from,chr.to,pos.to,cl)  
+@
+Figure \ref{fig:circlePlot} shows a circle plot. The gain frequencies are shown in red, while loss frequencies are shown in green. In addition, the orange and blue arcs connect the segments which were found to have high positive and negative correlations, respectively.
+    
+<<label=circleFile, echo=FALSE>>=
+png("circlePlot.png", width = 600, height = 600)
+@
+
+<<label=circlePlot>>=
+plotCircle(segments=lymphoma.res,thres.gain=0.15,arcs=arcs) 
+@
+
+<<label=circleClose, echo=FALSE>>=
+null <- dev.off()
+@
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{circlePlot.png}
+\caption{Circle plot for lymphoma data.}
+\label{fig:circlePlot}
+\end{center}
+\end{figure}
+
+
+
+ 
+\subsubsection{Heatmap}
+Another graphical function is \verb plotHeatmap , which may be used to examine differences between samples. Here a heatmap is plotted for each sample according to the magnitude of the estimated copy number value relative to some pre-defined limits.
+Figure \ref{fig:plotHeatmap} shows a heatplot for the lymphoma samples. Each sample is represented by a row. The color red indicates that the estimate is above the upper limit of $0.3$, while the color blue indicates that it is below the lower limit of $-0.3$. Darker nuances of red and blue indicate that the value is below and above the upper and lower limit, respectively, and the darker the nuance, the closer the value is to zero.
+
+<<label=heatFile, echo=FALSE>>=
+png("plotHeatmap.png", width = 800, height = 400)
+@
+
+<<label=plotHeatmap>>=
+plotHeatmap(segments=lymphoma.res,upper.lim=0.3)
+@
+
+<<label=heatClose, echo=FALSE>>=
+null <- dev.off()
+@
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics{plotHeatmap.png}
+\caption{Heatmap for lymphoma data.}
+\label{fig:plotHeatmap}
+\end{center}
+\end{figure}
+
+\subsubsection{Aberration plot}
+Similarly the function \verb plotAberration  is useful for locating recurrent aberrations. An example is given in Figure \ref{fig:plotAberration} where each row represents a sample and the colors red and blue indicate gains and losses, respectively. 
+
+<<label=aberrationFile, echo=FALSE>>=
+png("plotAberration.png", width = 800, height = 400)
+@
+
+<<label=plotAberration>>=
+plotAberration(segments=lymphoma.res,thres.gain=0.2)
+@
+
+<<label=aberrationClose, echo=FALSE>>=
+null <- dev.off()
+@
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics{plotAberration.png}
+\caption{Aberration plot for the lymphoma data.}
+\label{fig:plotAberration}
+\end{center}
+\end{figure}
+
+
+\subsubsection{Diagnostic plot for penalty selection.}
+As mentioned earlier we may apply the function \verb plotGamma  to decide on a reasonable choice for the penalty parameter in the segmentation routines. This function will run \verb pcf  for a single sample and chromosome using 10 values for \verb gamma  in the range indicated by the parameter \verb gammaRange . Each segmentation result is then plotted along with the data in a multigrid plot, and the number of segments found for each value of \verb gamma  is shown in the last panel. Figure \ref{fig:plotGamma} gives an example using the first sample in the \verb micma  data.
+
+<<label=gammaFile, echo=FALSE>>=
+png("plotGamma.png", width = 800, height = 600)
+@
+
+<<label=plotGamma>>=
+data(micma)
+plotGamma(micma,chrom=17,cex=3)
+@
+
+<<label=gammaClose, echo=FALSE>>=
+null <- dev.off()
+@
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics{plotGamma.png}
+\caption{Diagnostic gamma plot for the first sample in the micma  data. 10 different gamma-values are evaluated.}
+\label{fig:plotGamma}
+\end{center}
+\end{figure}
+
+
+
+An additional option is to specify the parameter \verb cv=TRUE , which means that a 5-fold cross-validation is run for each value of \verb gamma . A graph showing the average residual error from the cross-validation is then added in the last panel of the plot, and the value of \verb gamma  which minimizes this error is marked by an asterix. This value may provide a starting point for selecting \verb gamma , but should not be used uncritically because the cross-validation tends to favor too low values and could favor detection of low-amplitude "aberrations" which may be caused by artifacts related to the technology (e.g. due to GC-content). 
+
+
+
+\section{Tips}
+When the data set is very large an alternative to specifying the data frame as input in \verb winsorize , \verb pcf , \verb multipcf  and \verb aspcf  is to supply a txt-file as input in the \verb data  parameter. The data txt-file should then be organized in the same way as described for the data earlier, namely with chromosomes and genomic positions in the two first columns, and sample copy number data in all subsequent columns. The data will then be read in and processed chromosome arm by chromosome arm, thus taking up less memory. Similarly, results can be stored in txt-files by setting \verb save.res=TRUE  and optionally specifying filenames.
+
+Another way to handle large data sets is by applying the function \verb subsetData  to break the data set into a smaller subset only containing certain chromosomes and/or samples. Again, the input may be a data frame or a data txt-file. This function is also useful when plotting the data, and similarly \verb subsetSegments  may be used to get a subset of segments for particular chromosomes and/or samples.
+
+If it is not desirable to perform independent segmentations on each chromosome arm, or if the assembly does not match one of hg16-hg19 (e.g. if the data comes from another species), the function \verb pcfPlain  can be applied for single-sample segmentation. 
+
+In the data/segmentation plots (\verb plotGenome , \verb plotSample , \verb plotChrom, \verb plotAllele ) different segmentation results may be visualized together by specifying the input parameter \verb segments  as a list. This enables simultaneous examination and comparison of different segmentation results e.g. obtained from \verb pcf  and \verb multipcf , or by using different values of \verb gamma . See the help-files for these functions for examples.
+
+Aberration calling for the segments found by \verb pcf  or \verb multipcf  is done by the function \verb callAberrations . Given user-specified thresholds, this function classifies each segment as normal, gain or loss. 
+ 
+The function \verb selectSegments  can be used to retrieve potentially interesting segments found by \verb multipcf . Using this function one may select segments based on a number of characteristics; segments with the largest or smallest variance among the samples, the longest or shortest segments, or the segments that have the largest aberration freqencies.
+
+For the user familiar with the \verb GRanges  format from the \verb GenomicRanges  package, it is possible to convert the segments data frame via the function \verb getGRangesFormat .   
+
+
+
+\begin{thebibliography}{}
+
+\bibitem{nilsen12}
+Nilsen, G., Liestoel, K., Van Loo, P., Vollan, HKM., Eide, MB., Rueda, OM., Chin, SF., Russel, R., Baumbusch, LO., Caldas, C., Borresen-Dale, AL., Lingjaerde, OC,
+\emph{Copynumber: Efficient algorithms for single- and multi-track copy number segmentation}, BMC Genomics \emph{13}:591 (2012, doi:10.1186/1471-2164-13-59).
+
+\bibitem{eide10}
+Eide, MB., Liestoel, K., Lingjaerde, OC., Hystad, ME., Kresse, SH., Meza-Zepeda, L., Myklebost O., Troen, G., Aamot, HV., Holte, H., Smeland, EB., Delabie, J.,
+\emph{Genomic alterations reveal potential for higher grade transformation in follicular lymphoma and confirm parallell evolution of tumor cell clones}, Blood \emph{116} (2010), 1489--1497.
+
+\bibitem{mathiesen11}
+Mathiesen, RR., Fjelldal, R., Liestoel, K., Due, EU., Geigl, JB., Riethdorf, S., Borgen, E., Rye, IH., Schneider, IJ., Obenauf, AC., Mauermann, O., Nilsen, G., Lingjaerde, OC., Borresen-Dale, AL., Pantel, K., Speicher, MR., Naume, B., Baumbusch, LO.,
+\emph{High resolution analysis of copy number changes in disseminated tumor cells of patients with breast cancer}, Int J Cancer \emph{131}(4) (2011), E405:E415.
+ 
+\end{thebibliography}
+
+
+\end{document}
+

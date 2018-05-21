@@ -1,0 +1,8 @@
+model {
+  for (i in 1:n) {
+     probpred[i] <- a/(1+a*h*initial[i])
+     killed[i] ~ dbin(probpred[i],initial[i])
+  }
+a ~ dunif(0,10)
+h ~ dunif(0,1)
+}

@@ -1,0 +1,13 @@
+model {
+  for (i in 1:n) {
+     ## model neg binomial as Poisson-gamma mixture
+     ## want Poisson rate parameter to be gamma with mean mu, shape k
+     ##   gamma mean = shape*scale or shape/rate
+     ##     therefore rate = shape/mean
+     gammarate[i] <- k/mu
+     prob[i] ~ dgamma(k,gammarate[i])
+     x[i] ~ dpois(prob[i])
+  }
+mu ~ dunif(0,100)
+k ~ dunif(0,10)
+}

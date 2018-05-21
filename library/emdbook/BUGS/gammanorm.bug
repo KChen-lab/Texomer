@@ -1,0 +1,10 @@
+## BUGS code for gamma-normal model
+model {
+  for (i in 1:N) {
+     x.true[i] ~ dgamma(sh,rate)
+     x.obs[i] ~ dnorm(x.true[i],tau)
+  }
+  sh ~ dgamma(0.01,0.01)
+  rate ~ dgamma(0.01,0.01)
+  tau ~ dgamma(0.01,0.01)
+}

@@ -1,0 +1,5 @@
+useDynLib(facets)
+import(stats,graphics)
+importFrom("grDevices", "colorRampPalette")
+importFrom("utils", "data")
+exportPattern("^[[:alpha:]]+")

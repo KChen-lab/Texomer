@@ -1,0 +1,23 @@
+BIC-methods             Log likelihoods and model selection for mle2
+                        objects
+ICtab                   Compute table of information criteria and
+                        auxiliary info
+as.data.frame.profile.mle2
+                        convert profile to data frame
+call.to.char            Convert calls to character
+get.mnames              extract model names
+mle2                    Maximum Likelihood Estimation
+mle2-class              Class "mle2". Result of Maximum Likelihood
+                        Estimation.
+mle2.options            Options for maximum likelihood estimation
+namedrop                drop unneeded names from list elements
+parnames                get and set parameter names
+predict-methods         Predicted values from an mle2 fit
+profile-methods         Likelihood profiles
+profile.mle2-class      Methods for likelihood profiles
+relist2                 reconstruct the structure of a list
+sbinom                  Abstract definitions of distributions
+slice                   Calculate likelihood "slices"
+slice.mle2-class        likelihood-surface slices
+strwrapx                Wrap strings at white space and + symbols
+summary.mle2-class      Class "summary.mle2", summary of "mle2" objects

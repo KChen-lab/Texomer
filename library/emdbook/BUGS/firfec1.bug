@@ -1,0 +1,13 @@
+model {
+  for (i in 1:n) {
+     predcones[i] <- exp(a[grp[i]]+b[grp[i]]*DBH[i])
+     gammarate[i] <- k/predcones[i]
+     prob[i] ~ dgamma(k,gammarate[i])
+     cones[i] ~ dpois(prob[i])
+  }
+a[1] ~ dnorm(0,0.01)
+a[2] ~ dnorm(0,0.01)
+b[1] ~ dnorm(0,0.01)
+b[2] ~ dnorm(0,0.01)
+k ~ dunif(0.1,5)
+}

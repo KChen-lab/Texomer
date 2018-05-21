@@ -1,0 +1,46 @@
+citHeader("To cite the 'copynumber' package in publications use:")
+
+year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
+vers <- paste("R package version", meta$Version)
+
+citEntry(entry="Manual",
+         title = "copynumber: Segmentation of single- and multi-track copy number data by
+        penalized least squares regression",
+         author = personList(as.person("Gro Nilsen"),
+                             as.person("Knut Liestol"),
+                             as.person("Ole Christian Lingjaerde")),
+         year = year,
+         note = vers,
+
+         textVersion =
+         paste("Gro Nilsen, Knut Liestol and Ole Christian Lingjaerde (",
+               year,
+               "). copynumber: Segmentation of single- and multi-track copy number data by
+        penalized least squares regression. ",
+               vers, ".", sep=""))
+
+citEntry(entry="Article",
+         title = "Copynumber: Efficient algorithms for single- and multi-track copy number segmentation.",
+         author = personList(as.person("G. Nilsen"),
+                             as.person("K. Liestol"),
+                             as.person("P. Van Loo"),
+                             as.person("H.K.M. Vollan"),
+                             as.person("M.B. Eide"),
+                             as.person("O. Rueda"),
+                             as.person("S.F. Chin"),
+                             as.person("R. Russell"),
+                             as.person("L.O. Baumbusch"),
+                             as.person("C. Caldas"),
+                             as.person("A.L. Borresen-Dale"),
+                             as.person("O.C. Lingjaerde")),
+	 journal = "BMC Genomics",
+         volume  = "13",
+         number  = "1",
+         year    = "2012",
+         pages   = "591",
+
+         textVersion =
+         paste("Nilsen, G. & Liestol, K. et al. (2012)",
+  	       "Copynumber: Efficient algorithms for single- and multi-track copy number segmentation.",
+               "BMC Genomics 13(1):591")
+)

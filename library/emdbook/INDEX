@@ -1,0 +1,32 @@
+Damselfish              Reef fish (damselfish) data
+Fir                     Data on fir (Abies) life history
+GobySurvival            Goby (reef fish) survivorship data
+HPDregionplot           Plot highest posterior density region
+Lily                    Glacier lily occurrence and fecundity data
+Myxo                    Myxomatosis titer data
+Reedfrog                Data on reed frog predation experiments
+SeedPred                Seed predation data set from Duncan and Duncan
+                        2000
+apply2d                 Apply a function to a combination of vectors
+as.mcmc.bugs            Convert WinBUGS output to CODA format
+calcslice               Negative log-likelihood slice
+contour3d               Superimpose contour lines on a 3D plot
+curve3d                 Plot a 3D surface representing a 2D curve
+dbetabinom              Beta-binomial distribution
+dchibarsq               Mixed chi-squared distributions
+deltamethod             Delta method functions
+dmvnorm                 Multivariate normal distribution density
+                        function
+dzinbinom               Zero-inflated negative binomial distribution
+emdbook-package         ecological models and data
+get.emdbook.packages    install and update auxiliary packages
+gridsearch2d            Graphical grid search in 2D
+lambertW                Lambert W function
+lseq                    Log-spaced sequence
+lump.mcmc.list          Utility functions for mcmc objects
+metropSB                Metropolis-Szymura-Barton algorithm
+perturb.params          Create a list of perturbed parameters
+scinot                  Scientific notation as LaTeX/expression()
+tcredint                Calculate Bayesian credible intervals
+traceplot.mcmc          Deprecated (obsolete) functions
+trcoef                  Transform coefficients

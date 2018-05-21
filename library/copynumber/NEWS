@@ -1,0 +1,8 @@
+New in version 1.1.1:
+-----------------------
+
+- added NEWS file
+
+- added CITATION file
+
+- fixed plotHeatmap to ensure that negative copy number values and positive copy number values are plotted in different colors (in the previous version it was implicitly assumend that upper.lim and lower.lim were symmetrical around zero, colors were confusing when this was not true)

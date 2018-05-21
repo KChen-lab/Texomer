@@ -1,0 +1,134 @@
+CO2data                 GNP and CO2 Data Set
+Habituationdata         Infant habituation data
+NOdata                  Ethanol Fuel Data Set
+RTdata                  Reaction Time (RT) Data Set
+RTdata2                 Reaction Time (RT) Data Set \# 2
+RanEffdata              Simulated Data from 2-Component Mixture of
+                        Regressions with Random Effects
+RodFramedata            Rod and Frame Task Data Set
+Waterdata               Water-Level Task Data Set
+boot.comp               Performs Parametric Bootstrap for Sequentially
+                        Testing the Number of Components in Various
+                        Mixture Models
+boot.se                 Performs Parametric Bootstrap for Standard
+                        Error Approximation
+compCDF                 Plot the Component CDF
+density.npEM            Normal kernel density estimate for
+                        nonparametric EM output
+density.spEM            Normal kernel density estimate for
+                        semiparametric EM output
+depth                   Elliptical and Spherical Depth
+dmvnorm                 The Multivariate Normal Density
+ellipse                 Draw Two-Dimensional Ellipse Based on Mean and
+                        Covariance
+expRMM_EM               EM algorithm for Reliability Mixture Models
+                        (RMM) with right Censoring
+flaremixEM              EM Algorithm for Mixtures of Regressions with
+                        Flare
+gammamixEM              EM Algorithm for Mixtures of Gamma
+                        Distributions
+hmeEM                   EM Algorithm for Mixtures-of-Experts
+ise.npEM                Integrated Squared Error for a selected density
+                        from npEM output
+logisregmixEM           EM Algorithm for Mixtures of Logistic
+                        Regressions
+makemultdata            Produce Cutpoint Multinomial Data
+multmixEM               EM Algorithm for Mixtures of Multinomials
+multmixmodel.sel        Model Selection Mixtures of Multinomials
+mvnormalmixEM           EM Algorithm for Mixtures of Multivariate
+                        Normals
+mvnpEM                  EM-like Algorithm for Nonparametric Mixture
+                        Models with Conditionally Independent
+                        Multivariate Component Densities
+normalmixEM             EM Algorithm for Mixtures of Univariate Normals
+normalmixEM2comp        Fast EM Algorithm for 2-Component Mixtures of
+                        Univariate Normals
+normalmixMMlc           EC-MM Algorithm for Mixtures of Univariate
+                        Normals with linear constraints
+npEM                    Nonparametric EM-like Algorithm for Mixtures of
+                        Independent Repeated Measurements
+npMSL                   Nonparametric EM-like Algorithm for Mixtures of
+                        Independent Repeated Measurements - Maximum
+                        Smoothed Likelihood version
+plot.mixEM              Various Plots Pertaining to Mixture Models
+plot.mixMCMC            Various Plots Pertaining to Mixture Model
+                        Output Using MCMC Methods
+plot.mvnpEM             Plots of Marginal Density Estimates from the
+                        mvnpEM Algorithm Output
+plot.npEM               Plot Nonparametric or Semiparametric EM Output
+plot.spEMN01            Plot mixture pdf for the semiparametric mixture
+                        model output by spEMsymlocN01
+plotFDR                 Plot False Discovery Rate (FDR) estimates from
+                        output by EM-like strategies
+plotexpRMM              Plot sequences from the EM algorithm for
+                        censored mixture of exponentials
+plotseq.npEM            Plotting sequences of estimates from non- or
+                        semiparametric EM-like Algorithm
+plotspRMM               Plot output from Stochastic EM algorithm for
+                        semiparametric scaled mixture of censored data
+plotweibullRMM          Plot sequences from the Stochastic EM algorithm
+                        for mixture of Weibull
+poisregmixEM            EM Algorithm for Mixtures of Poisson
+                        Regressions
+print.mvnpEM            Printing of Results from the mvnpEM Algorithm
+                        Output
+print.npEM              Printing non- and semi-parametric multivariate
+                        mixture model fits
+regcr                   Add a Confidence Region or Bayesian Credible
+                        Region for Regression Lines to a Scatterplot
+regmixEM                EM Algorithm for Mixtures of Regressions
+regmixEM.lambda         EM Algorithm for Mixtures of Regressions with
+                        Local Lambda Estimates
+regmixEM.loc            Iterative Algorithm Using EM Algorithm for
+                        Mixtures of Regressions with Local Lambda
+                        Estimates
+regmixEM.mixed          EM Algorithm for Mixtures of Regressions with
+                        Random Effects
+regmixMH                Metropolis-Hastings Algorithm for Mixtures of
+                        Regressions
+regmixmodel.sel         Model Selection in Mixtures of Regressions
+repnormmixEM            EM Algorithm for Mixtures of Normals with
+                        Repeated Measurements
+repnormmixmodel.sel     Model Selection in Mixtures of Normals with
+                        Repeated Measures
+rexpmix                 Simulate from Mixtures of Exponentials
+rmvnorm                 Simulate from a Multivariate Normal
+                        Distribution
+rmvnormmix              Simulate from Multivariate (repeated measures)
+                        Mixtures of Normals
+rnormmix                Simulate from Mixtures of Normals
+rweibullmix             Simulate from Mixtures of Weibull distributions
+segregmixEM             ECM Algorithm for Mixtures of Regressions with
+                        Changepoints
+spEM                    Semiparametric EM-like Algorithm for Mixtures
+                        of Independent Repeated Measurements
+spEMsymloc              Semiparametric EM-like Algorithm for univariate
+                        symmetric location mixture
+spEMsymlocN01           semiparametric EM-like algorithm for univariate
+                        mixture in False Discovery Rate (FDR)
+                        estimation
+spRMM_SEM               Stochastic EM algorithm for semiparametric
+                        scaled mixture of censored data
+spregmix                EM-like Algorithm for Semiparametric Mixtures
+                        of Regressions
+summary.mixEM           Summarizing EM mixture model fits
+summary.mvnpEM          Summarizing Fits for Nonparametric Mixture
+                        Models with Conditionally Independent
+                        Multivariate Component Densities
+summary.npEM            Summarizing non- and semi-parametric
+                        multivariate mixture model fits
+summary.spRMM           Summarizing fits from Stochastic EM algorithm
+                        for semiparametric scaled mixture of censored
+                        data
+tauequivnormalmixEM     Special EM Algorithm for three-component tau
+                        equivalence model
+test.equality           Performs Chi-Square Tests for Scale and
+                        Location Mixtures
+test.equality.mixed     Performs Chi-Square Test for Mixed Effects
+                        Mixtures
+tonedata                Tone perception data
+weibullRMM_SEM          St-EM algorithm for Reliability Mixture Models
+                        (RMM) of Weibull with right Censoring
+wkde                    Weighted Univariate (Normal) Kernel Density
+                        Estimate
+wquantile               Weighted quantiles

@@ -1,0 +1,11 @@
+model {
+  for (i in 1:n) {
+     mean[i] <- a*day[i]*exp(-b*day[i])
+     rate[i] <- shape/mean[i]
+     titer[i] ~ dgamma(shape,rate[i])
+  }
+## priors
+a ~ dgamma(0.1,0.1)
+b ~ dgamma(0.1,0.1)
+shape ~ dgamma(0.1,0.01)
+}

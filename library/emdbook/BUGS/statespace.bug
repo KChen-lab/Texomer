@@ -1,0 +1,17 @@
+model {
+  ## initial values
+  t[1] <- n0
+  o[1] ~ dnorm(t[1],tau.obs)
+  ## step through observations
+  for (i in 2:N) {
+     v[i] <- t[i-1]+r*t[i-1]*(1-t[i-1]/K)
+     t[i] ~ dnorm(v[i],tau.proc)
+     o[i] ~ dnorm(t[i],tau.obs)
+  }
+  ## priors
+  r ~ dunif(0.1,maxr)
+  K ~ dgamma(0.005,0.005)
+  tau.obs ~ dgamma(0.005,0.005)
+  tau.proc ~ dgamma(0.005,0.005)
+  n0 ~ dgamma(1,n0rate)
+}

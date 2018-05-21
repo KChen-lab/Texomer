@@ -1,0 +1,7 @@
+model {
+  for (i in 1:n) {
+     titer[i] ~ dgamma(shape,rate)
+  }
+  shape ~ dunif(0,150)
+  rate ~ dunif(0,20)
+}
