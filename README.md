@@ -29,37 +29,36 @@ Usage
 Input files: 
 
 DNA input files: 
-				two kinds of input files were allowed in DACRE_scan:
+	two kinds of input files were allowed in DACRE_scan:
 
-						(1) input the output of varscan including germline and somatic mutations through -v;
+	(1) input the output of varscan including germline and somatic mutations through -v;
 
-						(2) two seperate files one is germline mutation through -g and another is somatic mutation through -s. 
-							The format of these two files are the same, including 8 columns: chromosome (start from "chr"), 
-							position, Reference allele, alternative allele, ref allelic read counts in normal, alt allelic 
-							read counts in normal, ref and alt allelic read counts in tumor with header and tab separate.
+	(2) two seperate files one is germline mutation through -g and another is somatic mutation through -s. 
+	The format of these two files are the same, including 8 columns: chromosome (start from "chr"), 
+	position, Reference allele, alternative allele, ref allelic read counts in normal, alt allelic 
+	read counts in normal, ref and alt allelic read counts in tumor with header and tab separate.
 
 RNA input files:
-				two kinds of input files were allowed in ARDE:
+	two kinds of input files were allowed in ARDE:
 
-						(1) bam file from RNA-seq. Load samtools and bedtools first if you input bam file.
+	(1) bam file from RNA-seq. Load samtools and bedtools first if you input bam file.
 
-						(2) allelic read counts of mutation from RNA-seq inlcuding 7 cloumns: chromosome (start from "chr"),
-							positive, reference allele, alternative allele, reference and alternative allelic read count from
-							RNA-seq, type of mutation (germline or somatic) with header and tab separate.    
-
+	(2) allelic read counts of mutation from RNA-seq inlcuding 7 cloumns: chromosome (start from "chr"),
+	positive, reference allele, alternative allele, reference and alternative allelic read count from
+	RNA-seq, type of mutation (germline or somatic) with header and tab separate.    
 
 Output file: Multiple files would be output. If you input RNA file, ARDE would output both at DNA and RNA level. otherwise, it 
-			would output estimation at DNA level. 
+	would output estimation at DNA level. 
 
-				(1) .segment file: position of segmentation; allele-specific copy number (Dmajor and Dminor), 
-				allele-specific expression levels(Rmajor and Rminor), Posterior probability of discordant expression corresponding to each segment.
-				(2) .mutation file: position of mutation, reference(ref) and alternative(alt) allele, allelic read count from RNA-seq(refNum and altNum),
-				mutation type(germline or somatic), allele specific copy number (altD corresponding to alternative allele and wildD corresponding to reference allele),
-				allele specific expression level (altR corresponding to alternative allele and wildR corresponding to reference allele),
-				posterior probability of discordant expression and DACRE score for each mutation.
+	(1) .segment file: position of segmentation; allele-specific copy number (Dmajor and Dminor), 
+	allele-specific expression levels(Rmajor and Rminor), Posterior probability of discordant expression corresponding to each segment.
 
-				(3) .summary file: purity at DNA and/or RNA level; ploidy and heterogeneity at DNA level
+	(2) .mutation file: position of mutation, reference(ref) and alternative(alt) allele, allelic read count from RNA-seq(refNum and altNum),
+	mutation type(germline or somatic), allele specific copy number (altD corresponding to alternative allele and wildD corresponding to reference allele),
+	allele specific expression level (altR corresponding to alternative allele and wildR corresponding to reference allele),
+	posterior probability of discordant expression and DACRE score for each mutation.
 
+	(3) .summary file: purity at DNA and/or RNA level; ploidy and heterogeneity at DNA level
 
 run DACRE-scan:
 ***The python script for easy (hopefully) run of DACRE_scan is in the release directory. You can tune the
