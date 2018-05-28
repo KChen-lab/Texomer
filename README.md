@@ -96,7 +96,7 @@ Run DACRE-scan:
 ***The python script for easy run of DACRE-scan is in the release directory. You can tune the
 parameters as you wish.***
 
-Python DACRE-scan.py –p Rscript/path –g germline.input –s somatic.input –r RNA.bam <-t iter.optimal.index> <-e mutation.expression> <-o output.path>
+	Python DACRE-scan.py –p Rscript/path –g germline.input –s somatic.input –r RNA.bam <-t iter.optimal.index> <-e mutation.expression> <-o output.path>
 
 About the default parameters
 ========================
@@ -108,4 +108,6 @@ A user can set -t 0 to turn off the iterative optimization.
 
 Example
 =====
-python DACRE-scan.py -g TCGA-3C-AAAU-01A-11D-A41F-09.snp.germline.input -s TCGA-3C-AAAU-10A-01D-A41F-09.mutect.vcf -e TCGA-3C-AAAU.RNA.SNV -p segACN
+Try DACRE-scan on the enclosed dataset first.
+
+	python DACRE-scan.py -g TCGA-3C-AAAU-01A-11D-A41F-09.snp.germline.input -s TCGA-3C-AAAU-10A-01D-A41F-09.mutect.vcf -e TCGA-3C-AAAU.RNA.SNV -p segACN
