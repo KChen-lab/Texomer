@@ -58,9 +58,9 @@ Options:
                         and read counts of Altallele in tumor with header
                         seperated by tab.
   -v VARSCAN, --varscan=VARSCAN
-                        the output of Varscan2 based on somatic calling
-  -r RNA, --RNA=RNA     bam file of RNA-seq
-  -i BAI, --bai=BAI     index bam file of RNA-seq. this is optional.
+                        the Varscan2 output file based on somatic calling
+  -r RNA, --RNA=RNA     bam file from the RNA-seq data
+  -i BAI, --bai=BAI     the index file of the RNA-seq bam file. this is optional.
   -e SNVEXPRESS, --snvexpress=SNVEXPRESS
                         The allelic read count of mutation from RNA-seq
                         including 7 columns: chromosome, position, ref, alt,
@@ -149,6 +149,6 @@ A user can set -t 0 to turn off the iterative optimization.
 
 Example
 =====
-Try DACRE-scan on the enclosed dataset first.
+Try DACRE-scan in the package directory on the example dataset 
 
-	python DACRE-scan.py -g TCGA-3C-AAAU-01A-11D-A41F-09.snp.germline.input -s TCGA-3C-AAAU-10A-01D-A41F-09.mutect.vcf -e TCGA-3C-AAAU.RNA.SNV -p segACN
+	python DACRE-scan.py -g $PWD/example/TCGA-3C-AAAU-01A-11D-A41F-09.snp.germline.input -s $PWD/example/TCGA-3C-AAAU-10A-01D-A41F-09.mutect.vcf -e $PWD/example/TCGA-3C-AAAU.RNA.SNV -p $PWD 
