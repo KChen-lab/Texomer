@@ -149,6 +149,10 @@ A user can set -t 0 to turn off the iterative optimization.
 
 Example
 =====
+Before trying DACRE, please note the following:
+	(1) DACRE-scan runs on a x86_64 Linux system. DACRE-scan utilizes R packages that were built for linux. If you are trying to run DACRE on a non-linux system, you will get the error "TitanCNA’ was built for x86_64-pc-linux-gnu".
+	(2) Please load R (version >=3.2).
+
 Try DACRE-scan in the package directory on the example dataset 
 
 	python DACRE-scan.py -g $PWD/example/TCGA-3C-AAAU-01A-11D-A41F-09.snp.germline.input -s $PWD/example/TCGA-3C-AAAU-10A-01D-A41F-09.mutect.vcf -e $PWD/example/TCGA-3C-AAAU.RNA.SNV -p $PWD 
