@@ -7,9 +7,9 @@ Draft date: Feb. 12, 2018
 Description
 ===========
 DACRE-scan is a tool used in cancer genomic studies to discover single nucleotide variants (both somatic and germline) 
-with differential allelic cis-regulatory effects (DACRE) through an integration of whole- exome sequencing (WES) data and whole transcriptome sequencing (WTS) data.
+with differential allelic cis-regulatory effects (DACRE) through an integration of whole-exome sequencing (WES) data and whole transcriptome sequencing (WTS) data.
 
-It reports estimations of tumor purity at both the DNA and the RNA levels, intratumor heterogeneity at the DNA level, allelic specific copy numbers and expression levels and DACRE (functional) score of each variant allele. 
+It reports estimations of tumor purity at both the DNA and RNA level as well as intratumor heterogeneity at the DNA level. Moreover, DACRE yeilds allelic specific copy numbers and expression levels along with a DACRE (functional) score of each variant allele. 
 
 If the input only includes information at the DNA level, it only reports the estimates at the DNA level and focuses on somatic mutations.
 
@@ -26,7 +26,7 @@ These R packeages are already included in this release.
 
 Installation
 ============
-Please download and copy the distribution to your specific location. 
+Please download and copy the distribution to your specific location. If you are cloning from github, ensure that you have git-lfs installed.
 
 For example, if the downloaded distribuition is DACRE_scan.tar.gz.
 	Type 'tar zxvf DACRE_scan.tar.gz'
