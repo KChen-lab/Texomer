@@ -29,7 +29,7 @@ Usage
 Input files: 
 
 DNA input files: 
-	two kinds of input files were allowed in DACRE_scan:
+	two kinds of input files were allowed in DACRE-scan:
 
 	(1) input the output of varscan including germline and somatic mutations through -v;
 
@@ -39,7 +39,7 @@ DNA input files:
 	read counts in normal, ref and alt allelic read counts in tumor with header and tab separate.
 
 RNA input files:
-	two kinds of input files were allowed in DACRE_scan:
+	two kinds of input files were allowed in DACRE-scan:
 
 	(1) bam file from RNA-seq. Load samtools and bedtools first if you input bam file.
 
@@ -47,7 +47,7 @@ RNA input files:
 	positive, reference allele, alternative allele, reference and alternative allelic read count from
 	RNA-seq, type of mutation (germline or somatic) with header and tab separate.    
 
-Output file: Multiple files would be output. If you input RNA file, DACRE_scan would output both at DNA and RNA level. otherwise, it 
+Output file: Multiple files would be output. If you input RNA file, DACRE-scan would output both at DNA and RNA level. otherwise, it 
 	would output estimation at DNA level. 
 
 	(1) .segment file: position of segmentation; allele-specific copy number (Dmajor and Dminor), 
@@ -68,11 +68,11 @@ Python DACRE_scan.py –p Rscript/path –g germline.input –s somatic.input �
 
 About the default parameters
 ========================
-DACRE_scan optimizes estimation of purity and allele specific copy number through combing somatic mutation. So default -t is 1 corresponding to do the optimized iteration.
+DACRE-scan optimizes estimation of purity and allele specific copy number through combing somatic mutation. So default -t is 1 corresponding to do the optimized iteration.
 
 You can set -t 0 if you don't want to do optimization.
 
-Thank you very much for testing and using DACRE_scan. We appreciate so much for
+Thank you very much for testing and using DACRE-scan. We appreciate so much for
 your feedback!
 
 
