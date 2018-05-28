@@ -35,6 +35,7 @@ Then, run DACRE-scan.py in the resulting folder.
 
 Usage
 =====
+```
 Options:
   --version             show program's version number and exit
   -h, --help            Show this help message and exit.
@@ -68,7 +69,7 @@ Options:
                         no optimation and 1 is optimation. The default = 1
   -o OUTPATH, --outpath=OUTPATH
                         the output path. This is optional
-
+```
 
 Input files: 
 
