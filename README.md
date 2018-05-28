@@ -35,6 +35,41 @@ Then, run DACRE-scan.py in the resulting folder.
 
 Usage
 =====
+Options:
+  --version             show program's version number and exit
+  -h, --help            Show this help message and exit.
+  -p RSCRIPT, --Rscript=RSCRIPT
+                        the path of DACRE
+  -g GERMLINE, --germline=GERMLINE
+                        You can input your own germline mutation file if no
+                        -v. The file name of germline input file include 8
+                        columns: chromosome, position, RefAllele, Altallele,
+                        read counts of RefAllele in normal, read counts of
+                        Altallele in normal, read counts of RefAllele in tumor
+                        and read counts of Altallele in tumor with header
+                        seperated by tab.
+  -s SOMATIC, --somatic=SOMATIC
+                        You can input your own somatic mutation file if no -v.
+                        The file name of somatic input file include 8 columns:
+                        chromosome, position, RefAllele, Altallele, read
+                        counts of RefAllele in normal, read counts of
+                        Altallele in normal, read counts of RefAllele in tumor
+                        and read counts of Altallele in tumor with header
+                        seperated by tab.
+  -v VARSCAN, --varscan=VARSCAN
+                        the output of Varscan2 based on somatic calling
+  -r RNA, --RNA=RNA     bam file of RNA-seq
+  -i BAI, --bai=BAI     index bam file of RNA-seq. this is optional.
+  -e SNVEXPRESS, --snvexpress=SNVEXPRESS
+                        The allelic read count of mutation from RNA-seq
+                        including 7 columns: chromosome, position, ref, alt,
+                        refnum, altnum and type (germline or somatic)
+  -t ITER, --iter=ITER  optimal through somatic mutation, 0 corresponding to
+                        no optimation and 1 is optimation. The default = 1
+  -o OUTPATH, --outpath=OUTPATH
+                        the output path. This is optional
+
+
 Input files: 
 
 DNA input files: 
