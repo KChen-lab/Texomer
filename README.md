@@ -55,24 +55,27 @@ RNA input files:
 	positive, reference allele, alternative allele, reference and alternative allelic read count from
 	RNA-seq, and type of mutation (germline or somatic).    
 
-Output file: 
+Output files: 
 
 	There are Multiple files: 
 
 	If the input includes a RNA file, DACRE-scan would generate output at both the DNA and the RNA levels. 
 	Otherwise, it will output only estimation at the DNA level.
 
-	(1) .segment file: position of copy nuymber segments; allele-specific copy number (Dmajor and Dminor), 
+	(1) .segment file: 
+	position of copy nuymber segments; allele-specific copy number (Dmajor and Dminor), 
 	allele-specific expression levels(Rmajor and Rminor), and posterior probability of discordant expression corresponding to each segment.
 
-	(2) .mutation file: position of mutations, reference(ref) and alternative(alt) allele, allelic read count from RNA-seq(refNum and altNum),
+	(2) .mutation file: 
+	position of mutations, reference(ref) and alternative(alt) allele, allelic read count from RNA-seq(refNum and altNum),
 	mutation type(germline or somatic), allele specific copy number (altD corresponding to alternative allele and wildD corresponding to reference allele),
 	allele specific expression level (altR corresponding to alternative allele and wildR corresponding to reference allele),
 	posterior probability of discordant expression and DACRE score for each mutation.
 
-	(3) .summary file: tumor purity at the DNA and/or the RNA level; ploidy and intra-tumor heterogeneity at the DNA level
+	(3) .summary file: 
+	tumor purity at the DNA and/or the RNA level; ploidy and intra-tumor heterogeneity at the DNA level
 
-run DACRE-scan:
+Run DACRE-scan:
 ***The python script for easy run of DACRE-scan is in the release directory. You can tune the
 parameters as you wish.***
 
