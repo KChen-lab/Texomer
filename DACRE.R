@@ -13,14 +13,14 @@ RNAinput=args[3]
 path=args[4]
 outpath=args[5]
 optindex=args[6]
-library(doMC)
+library(doMC,lib.loc=paste(path,"/library",sep=""))
 library(bbmle,lib.loc=paste(path,"/library",sep=""))
 library(emdbook,lib.loc=paste(path,"/library",sep=""))
 library(copynumber,lib.loc=paste(path,"/library",sep=""))
 library(TitanCNA,lib.loc=paste(path,"/library",sep=""))
 library(facets,lib.loc=paste(path,"/library",sep=""))
 library(mixtools,lib.loc=paste(path,"/library",sep=""))
-library(sfsmisc)
+library(sfsmisc,lib.loc=paste(path,"/library",sep=""))
 source(paste(path,"/ASCAT.R",sep=""))
 source(paste(path,"/DNAfunction.R",sep=""))
 source(paste(path,"/RNAfunction.R",sep=""))
