@@ -22,7 +22,7 @@ Installation
 ============
 Please download and copy the distribution to your specific location. For example, the downloaded distribuition is DACRE_scan.tar.gz.
 	Type 'tar zxvf DACRE_scan.tar.gz'
-Then, run DACRE_scan.py in DACRE_scan folder.
+Then, run DACRE-scan.py in DACRE folder.
 
 Usage
 =====
@@ -61,10 +61,10 @@ Output file: Multiple files would be output. If you input RNA file, DACRE-scan w
 	(3) .summary file: purity at DNA and/or RNA level; ploidy and heterogeneity at DNA level
 
 run DACRE-scan:
-***The python script for easy (hopefully) run of DACRE_scan is in the release directory. You can tune the
+***The python script for easy (hopefully) run of DACRE-scan is in the release directory. You can tune the
 parameters as you wish.***
 
-Python DACRE_scan.py –p Rscript/path –g germline.input –s somatic.input –r RNA.bam <-t iter.optimal.index> <-e mutation.expression> <-o output.path>
+Python DACRE-scan.py –p Rscript/path –g germline.input –s somatic.input –r RNA.bam <-t iter.optimal.index> <-e mutation.expression> <-o output.path>
 
 About the default parameters
 ========================
@@ -78,4 +78,4 @@ your feedback!
 
 Example
 =====
-python DACRE_scan.py -g TCGA-3C-AAAU-01A-11D-A41F-09.snp.germline.input -s TCGA-3C-AAAU-10A-01D-A41F-09.mutect.vcf -e TCGA-3C-AAAU.RNA.SNV -p segACN
+python DACRE-scan.py -g TCGA-3C-AAAU-01A-11D-A41F-09.snp.germline.input -s TCGA-3C-AAAU-10A-01D-A41F-09.mutect.vcf -e TCGA-3C-AAAU.RNA.SNV -p segACN
