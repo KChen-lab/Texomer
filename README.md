@@ -16,8 +16,11 @@ focuses on somatic mutations.
 System requirements and dependency
 ==================================
 DACRE-scan runs on a x86_64 Linux system. It depends on samtools and bedtools to extract reads covering variant sites from WTS data. 
-It requires R(version >= 3.2)
-to run and has dependency on the R packages: bbmle, emdbook, copynumber,TitanCNA, facets, mixtools, ASCAT and Sequenza. 
+
+It also requires R (version >= 3.2)
+to run and has dependency on the R packages: 
+	bbmle, emdbook, copynumber,TitanCNA, facets, mixtools, ASCAT and Sequenza. 
+
 These R packeages are already included in this release.
 
 Installation
@@ -101,6 +104,7 @@ parameters as you wish.***
 About the default parameters
 ========================
 DACRE-scan optimizes estimation of tumor purity and allele specific copy numbers by combining both germline SNPs and somatic SNVs. 
+
 By default, -t is 1, which turns on iterative optimization.
 
 A user can set -t 0 to turn off the iterative optimization.
