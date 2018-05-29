@@ -1,6 +1,7 @@
 DACRE-scan
 
 Author: Fang Wang
+
 Email: fwang9@mdanderson.org or kchen3@mdanderson.org
 
 Draft date: Feb. 12, 2018
@@ -72,8 +73,6 @@ Options:
                         the output path. Optional.
 ```
 
-Input files: 
-
 DNA input files: 
 
 	Two kinds of DNA input files are allowed in DACRE-scan:
@@ -139,7 +138,7 @@ parameters as you wish.***
 
 	Python DACRE-scan.py –p Rscript/path –g germline.input –s somatic.input –r RNA.bam <-t iter.optimal.index> <-e mutation.expression> <-o output.path>
 
-	< > includes optional parameters.
+< > contains optional parameters.
 
 About the default parameters
 ========================
