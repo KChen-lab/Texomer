@@ -11,7 +11,7 @@ Description
 DACRE-scan is a tool used in cancer genomic studies to discover single nucleotide variants (both somatic and germline) 
 with differential allelic cis-regulatory effects (DACRE) through an integration of whole-exome sequencing (WES) data and whole transcriptome sequencing (WTS) data.
 
-It reports estimations of tumor purity at both the DNA and RNA level as well as intratumor heterogeneity at the DNA level. Moreover, DACRE yeilds allelic specific copy numbers and expression levels along with a DACRE (functional) score of each variant allele. 
+It reports estimations of tumor purity at both the DNA and RNA level as well as intratumor heterogeneity at the DNA level. Moreover, DACRE yields allelic specific copy numbers and expression levels along with a DACRE (functional) score of each variant allele. 
 
 If the input only includes information at the DNA level, it only reports the estimates at the DNA level and focuses on somatic mutations.
 
