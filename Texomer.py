@@ -157,7 +157,7 @@ def main():
     op.add_option("-h","--help",action="help",
                   help="Show this help message and exit.")
     op.add_option("-p","--Rscript",dest="Rscript",type="str",
-                  help="the path of DACRE")
+                  help="the path of Texomer")
     op.add_option("-g","--germline",dest="germline",type="str",
                   help="You can input your own germline mutation file if no -v. The file name of germline input file include 8 columns: chromosome, position, RefAllele, Altallele, read counts of RefAllele in normal, read counts of Altallele in normal, read counts of RefAllele in tumor and read counts of Altallele in tumor with header seperated by tab. \t")
     op.add_option("-s","--somatic",dest="somatic",type="str",
