@@ -259,7 +259,7 @@ def main():
         optindex=1
     else:
         optindex=options.iter
-    os.system("Rscript "+Rscript+"/DACRE.R "+germlinename+" "+somaticname+" "+outputname+" "+Rscript+" "+outpath+" "+str(optindex))
+    os.system("Rscript "+Rscript+"/Texomer.R "+germlinename+" "+somaticname+" "+outputname+" "+Rscript+" "+outpath+" "+str(optindex))
     os.chdir(outpath)
     os.system("rm -r temp")
 
