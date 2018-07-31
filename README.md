@@ -8,10 +8,9 @@ Draft date: Feb. 12, 2018
 
 Description
 ===========
-Texomer is a tool used in cancer genomic studies to discover single nucleotide variants (both somatic and germline) 
-with differential allelic cis-regulatory effects (DACRE) through an integration of whole-exome sequencing (WES) data and whole transcriptome sequencing (WTS) data.
+Texomer is a tool used in cancer genomic studies to perform allele-specific, tumor-deconvoluted transcriptome-exome integration of the bulk whole exome (WES) and whole transcriptome sequencing (WTS) data obtained from autologous patient tissue sample. 
 
-It reports estimations of tumor purity at both the DNA and RNA level as well as intratumor heterogeneity at the DNA level. Moreover, Texomer yields allelic specific copy numbers and expression levels along with a DACRE (functional) score of each variant allele. 
+It reports estimations of tumor purity at both the DNA and RNA level as well as intratumor heterogeneity at the DNA level. Moreover, Texomer yeilds allelic specific copy numbers and expression levels along with a differential allelic cis-regulatory effect (DACRE) score of each variant allele. 
 
 If the input only includes information at the DNA level, it only reports the estimates at the DNA level and focuses on somatic mutations.
 
@@ -30,8 +29,8 @@ Installation
 ============
 Please download and copy the distribution to your specific location. If you are cloning from github, ensure that you have git-lfs installed.
 
-For example, if the downloaded distribuition is Texomer.tar.gz.
-	Type 'tar zxvf Texomer.tar.gz'
+For example, if the downloaded distribuition is Texomer-1.0.tar.gz.
+	Type 'tar zxvf Texomer-1.0.tar.gz'
 
 Then, run Texomer.py in the resulting folder.
 
@@ -42,7 +41,7 @@ Options:
   --version             show program's version number and exit
   -h, --help            Show this help message and exit.
   -p RSCRIPT, --Rscript=RSCRIPT
-                        the path of DACRE
+                        the path of Texomer
   -g GERMLINE, --germline=GERMLINE
                         You can input your own germline mutation file if no
                         -v. The file name of germline input file include 8
