@@ -30,10 +30,10 @@ Installation
 ============
 Please download and copy the distribution to your specific location. If you are cloning from github, ensure that you have git-lfs installed.
 
-For example, if the downloaded distribuition is DACRE_scan.tar.gz.
-	Type 'tar zxvf DACRE_scan.tar.gz'
+For example, if the downloaded distribuition is Texomer.tar.gz.
+	Type 'tar zxvf Texomer.tar.gz'
 
-Then, run DACRE-scan.py in the resulting folder.
+Then, run Texomer.py in the resulting folder.
 
 Usage
 =====
@@ -132,17 +132,17 @@ Output files:
 		tumor purity in the tumor DNA and/or RNA data; 
 		ploidy and intra-tumor heterogeneity in the tumor DNA data
 
-Run DACRE-scan:
+Run Texomer:
 ***The python script for easy run of Texomer is in the release directory. You can tune the
 parameters as you wish.***
 
-	Python DACRE-scan.py –p Rscript/path –g germline.input –s somatic.input –r RNA.bam <-t iter.optimal.index> <-e mutation.expression> <-o output.path>
+	Python Texomer.py –p Rscript/path –g germline.input –s somatic.input –r RNA.bam <-t iter.optimal.index> <-e mutation.expression> <-o output.path>
 
 < > contains optional parameters.
 
 About the default parameters
 ========================
-DACRE-scan optimizes estimation of tumor purity and allele specific copy numbers by combining both germline SNPs and somatic SNVs. 
+Texomer optimizes estimation of tumor purity and allele specific copy numbers by combining both germline SNPs and somatic SNVs. 
 
 By default, -t is 1, which turns on iterative optimization.
 
@@ -151,11 +151,11 @@ A user can set -t 0 to turn off the iterative optimization.
 
 Example
 =====
-Before trying DACRE, please note the following:
+Before trying Texomer, please note the following:
 	
 	(1) This version of Texomer runs only on a x86_64 Linux system. Texomer utilizes R packages that were built for linux. If you are trying to run Texomer on a non-linux system, you will get the error "TitanCNA’ was built for x86_64-pc-linux-gnu".
 	(2) Please load R (version >=3.2).
 
 Try Texomer in the package directory on the example dataset 
 
-	python DACRE-scan.py -g $PWD/example/TCGA-3C-AAAU-01A-11D-A41F-09.snp.germline.input -s $PWD/example/TCGA-3C-AAAU-10A-01D-A41F-09.mutect.vcf -e $PWD/example/TCGA-3C-AAAU.RNA.SNV -p $PWD 
+	python Texomer.py -g $PWD/example/TCGA-3C-AAAU-01A-11D-A41F-09.snp.germline.input -s $PWD/example/TCGA-3C-AAAU-10A-01D-A41F-09.mutect.vcf -e $PWD/example/TCGA-3C-AAAU.RNA.SNV -p $PWD 
