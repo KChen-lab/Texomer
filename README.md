@@ -29,8 +29,8 @@ Installation
 ============
 Please download and copy the distribution to your specific location. If you are cloning from github, ensure that you have git-lfs installed.
 
-For example, if the downloaded distribuition is Texomer-1.0.tar.gz.
-	Type 'tar zxvf Texomer-1.0.tar.gz'
+For example, if the downloaded distribuition is Texomer-1.1.tar.gz.
+	Type 'tar zxvf Texomer-1.1.tar.gz'
 
 Then, run Texomer.py in the resulting folder.
 
