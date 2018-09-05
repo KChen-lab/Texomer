@@ -1,5 +1,5 @@
 # TODO: Add comment
-# 
+#
 # Author: FWang9
 ###############################################################################
 #R version needs >= 3.2.0
@@ -67,8 +67,8 @@ if (length(args)==6){
 			write.table(segment,paste(outpath,"/output.segment.txt",sep=""),col.names=TRUE,row.names=FALSE,quote=FALSE,sep="\t")
 			write.table(res,paste(outpath,"/output.mutation.txt",sep=""),col.names=TRUE,row.names=FALSE,quote=FALSE,sep="\t")
 		}
-		
+
 	}else{
-		print.noquote(paste(sample,": No output!",sep=""))
+		print.noquote(paste(caseid,": No output!",sep=""))
 	}
 }
