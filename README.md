@@ -153,7 +153,7 @@ Example
 Before trying Texomer, please note the following:
 
 	(1) This version of Texomer runs only on a x86_64 Linux system. Texomer utilizes R packages that were built for linux. If you are trying to run Texomer on a non-linux system, you will get the error "TitanCNA’ was built for x86_64-pc-linux-gnu".
-	(2) Please load R (version >=3.2).
+	(2) Please load R (version = 3.4).
 
 Try Texomer in the package directory on the example dataset
 
