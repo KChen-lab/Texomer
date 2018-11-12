@@ -35,6 +35,9 @@ def VarscanTrans(varscan,case):
         if type == "Germline" and gt not in ["A","C","G","T"] and pgerm < 0.01:
             out=chr+"\t"+position+"\t"+ref+"\t"+var+"\t"+refNumN+"\t"+altNumN+"\t"+refNumT+"\t"+altNumT
             print >> germlineout,out
+        if type == "LOH" and (psoma < 0.01 or pgerm < 0.01):
+            out=chr+"\t"+position+"\t"+ref+"\t"+var+"\t"+refNumN+"\t"+altNumN+"\t"+refNumT+"\t"+altNumT
+            print >> germlineout,out
         if type == "Somatic" and psoma < 0.01:
             out=chr+"\t"+position+"\t"+ref+"\t"+var+"\t"+refNumN+"\t"+altNumN+"\t"+refNumT+"\t"+altNumT
             print >> somaticout,out
