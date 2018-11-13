@@ -220,7 +220,7 @@ def main():
     op.add_option("-e","--snvexpress",dest="snvexpress",type="str",
                   help="The allelic read count of mutation from RNA-seq including 7 columns: chromosome, position, ref, alt, refnum, altnum and type (germline or somatic)")
     op.add_option("-u","--iter",dest="iter",type="int",
-                  help="optimization using somatic mutation, 0 corresponding to no optimization and 1 is optimization. The default = 1")
+                  help="Optimization using somatic mutation, 0 corresponding to no optimization and 1 is optimization. The default = 1")
     (options,args) = op.parse_args()
     if not options.Texomer or not options.Input:
         op.print_help()
