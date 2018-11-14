@@ -145,7 +145,7 @@ Run Texomer:
 ***The python script for easy run of Texomer is in the release directory. You can tune the
 parameters as you wish.***
 
-	Python Texomer.py [-t <tumor bam file> -n <normal bam file> -r <RNA bam file> -o <output path> -v <Varscan output> -g <Defined germline mutation input file> -s <Defined somatic mutation input file> -u <optimization> -e <Defined expression file of mutation>] –p <Texomer path> –I <input form>
+	Python Texomer.py [-t <tumor bam file>] [-n <normal bam file>] [-r <RNA bam file>] [-o <output path>] [-v <Varscan output>] [-g <Defined germline mutation input file>] [-s <Defined somatic mutation input file>] [-u <optimization>] [-e <Defined expression file of mutation>] –p <Texomer path> –I <input form>
 [...] contains optional parameters. The mandatory arguments are -p and -I. The form of input includes BAM, Varscan, and Defined.	 
 
 About the default parameters
