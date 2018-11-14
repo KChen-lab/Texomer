@@ -187,6 +187,9 @@ Try Texomer in the package directory on the different example datasets
 
 	python Texomer.py -p ./ -I Varscan -v ./example/varscan.snp -r ./example/RNA.bam -o ./res2
 
+***All example data of bam files are not provided on GitHub because of the limitation of file size.***
+
+
 **Example 3: Input WES bam file**
 
 	python Texomer.py -p ./ -I BAM -t ./example/Tumor.bam -n ./example/Normal.bam -r ./example/RNA.bam -o ./res3
