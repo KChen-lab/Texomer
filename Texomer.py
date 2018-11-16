@@ -194,7 +194,7 @@ def getPath(path):
 
 
 def main():
-    usage = "usage: python %prog [-t <tumor bam file>] [-n <normal bam file>] [-r <RNA bam file>] [-v <Varscan mutation calling output>] [-g <Defiend germline mutation input file>] [-s <Defined somatic mutation input file>] [-o <output path>] [-u <Optimization>] [-e <Defined expression file of mutation>] -p <Texomer path> -I <input form> "
+    usage = "usage: python %prog [-t <tumor bam file>] [-n <normal bam file>] [-r <RNA bam file>] [-v <Varscan mutation calling output>] [-g <Defiend germline mutation input file>] [-s <Defined somatic mutation input file>] [-o <output path>] [-u <Optimization>] [-e <Defined expression file of mutation>] [-f location of reference sequence] -p <Texomer path> -I <input form> "
     description = "[options] is optional. The path of Texomer and the form of input file are required in Texomer. Three forms of input file are allowed: BAM, Varscan and Defined. If -I BAM is selected, -t and -n are required. Texomer requires bam file is alligned based on GRCH38. If -I Varscan is selected, -v is required. If -I Defined is selected, -g and -s are required. RNA-seq bam file is optional for Texomer. Texomer would do estimation only at DNA level if without RNA data input."
     op = OptionParser(version="%prog 0.1",description=description,usage=usage,add_help_option=False)
     op.add_option("-h","--help",action="help",
@@ -221,6 +221,8 @@ def main():
                   help="The allelic read count of mutation from RNA-seq including 7 columns: chromosome, position, ref, alt, refnum, altnum and type (germline or somatic)")
     op.add_option("-u","--iter",dest="iter",type="int",
                   help="Optimization using somatic mutation, 0 corresponding to no optimization and 1 is optimization. The default = 1")
+    op.add_option("-f","--reference",dest="reference",type="str",
+                  help="The location of reference sequence.")
     (options,args) = op.parse_args()
     if not options.Texomer or not options.Input:
         op.print_help()
@@ -235,7 +237,6 @@ def main():
     samtools=Texomerpath+"/samtools"
     bedtools=Texomerpath+"/bedtools"
     picard=Texomerpath+"/picard.jar"
-    ref=Texomerpath+"/reference/GRCH38.fa"
     Varscan=Texomerpath+"/VarScan.v2.3.9.jar"
     if not options.outpath:
         outpath=os.getcwd()
@@ -268,17 +269,23 @@ def main():
             somaticname = os.getcwd()+"/"+case+".somatic"
     elif options.Input == "BAM":
         if options.Tumor and options.Normal:
-            Tumor=options.Tumor
-            Tumor=getPath(Tumor)
-            Normal=options.Normal
-            Normal=getPath(Normal)
-            case="case"
-            os.chdir(outpath+"/temp")
-            SNPcalling(Tumor=Tumor,Normal=Normal,samtools=samtools,picard=picard,ref=ref,Varscan=Varscan)
-            germlinename = os.getcwd()+"/"+case+".germline"
-            somaticname = os.getcwd()+"/"+case+".somatic"
-            os.system("rm "+Tumor+".bai")
-            os.system("rm "+Normal+".bai")
+            if not options.reference:
+                print "Please input the location of refereence sequence through -f."
+                sys.exit(1)
+            else:
+                ref=options.reference
+                ref=getPath(ref)
+                Tumor=options.Tumor
+                Tumor=getPath(Tumor)
+                Normal=options.Normal
+                Normal=getPath(Normal)
+                case="case"
+                os.chdir(outpath+"/temp")
+                SNPcalling(Tumor=Tumor,Normal=Normal,samtools=samtools,picard=picard,ref=ref,Varscan=Varscan)
+                germlinename = os.getcwd()+"/"+case+".germline"
+                somaticname = os.getcwd()+"/"+case+".somatic"
+                os.system("rm "+Tumor+".bai")
+                os.system("rm "+Normal+".bai")
         else:
             print "Please input bam file through -t and -n."
             sys.exit(1)
