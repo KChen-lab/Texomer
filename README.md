@@ -22,7 +22,7 @@ to run and has dependency on the R packages:
 
 	bbmle, emdbook, copynumber,TitanCNA, facets, mixtools, ASCAT and Sequenza.
 
-***These R packeages are already incorporated in this release. Users do not need to install them.***
+***Samtools, bedtools and all R packeages which Texomer depends on are already incorporated in this release. Users do not need to load or install them.***
 
 Installation
 ============
