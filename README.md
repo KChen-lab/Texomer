@@ -15,7 +15,7 @@ If the input only includes information at the DNA level, it only reports the est
 
 System requirements and dependency
 ==================================
-Texomer runs on a x86_64 Linux system. It depends on samtools and bedtools to extract reads covering variant sites from WTS data.
+Texomer runs on a x86_64 Linux system, Python 2.7. It depends on samtools and bedtools to extract reads covering variant sites from WTS data.
 
 It also requires R (version >= 3.4)
 to run and has dependency on the R packages:
@@ -72,8 +72,11 @@ Options:
                         The allelic read count of mutation from RNA-seq
                         including 7 columns: chromosome, position, ref, alt,
                         refnum, altnum and type (germline or somatic)
-  -u ITER, --iter=ITER  optimization using somatic mutation, 0 corresponding to
+  -u ITER, --iter=ITER  Optimization using somatic mutation, 0 corresponding to
                         no optimization and 1 is optimization. The default = 1
+  -f REFERENCE, --reference=REFERENCE
+                        The location of reference sequence.
+
 
 ```
 
