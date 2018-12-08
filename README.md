@@ -1,7 +1,6 @@
 Texomer
 ===========
-Author: Fang Wang
-Email: fwang9@mdanderson.org or kchen3@mdanderson.org
+Developer: Fang Wang (fwang9@mdanderson.org)
 
 Draft date: Nov. 1, 2018
 
