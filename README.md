@@ -82,8 +82,8 @@ Options:
 
 ```
 
-Input files:
-============
+Input files
+===========
 
 DNA input files:
 
@@ -120,8 +120,8 @@ RNA input files:
 		alternative allelic read count from the RNA-seq bam,
 		type of mutation (germline or somatic).    
 
-Output files:
-=============
+Output files
+============
 
 There are multiple files:
 
@@ -162,15 +162,15 @@ By default, -u is 1, which turns on iterative optimization.
 A user can set -u 0 to turn off the iterative optimization.
 
 
-Example
-=======
+Examples
+========
 Try Texomer in the package directory on the different example datasets
 
 **Example 1: Input defined mutation file**
 
 	python Texomer.py -p ./ -I Defined -g ./example/germline.input -s ./example/somatic.input.vcf -e ./example/RNA.SNV -o ./res1
 
-if you want to only run Texomer on DNA:
+if you want to run Texomer on only the DNA data:
 
 	python Texomer.py -p ./ -I Defined -g ./example/germline.input -s ./example/somatic.input.vcf -o ./res1
 
@@ -192,20 +192,21 @@ if you want to only run Texomer on DNA:
 	chr1	12198	G	C	8	0	germline
 	chr1	12383	G	A	2	0	germline
 
-**Example 2: Input varscan2 output**
+**Example 2: Input a varscan2 file**
 
 	python Texomer.py -p ./ -I Varscan -v ./example/varscan.snp -r ./example/RNA.bam -o ./res2
 
 *Bam input files are not provided on GitHub because of the limitation of file size.*
 
 
-**Example 3: Input WES bam file**
+**Example 3: Input WES bam files**
 
 	python Texomer.py -p ./ -I BAM -t ./example/Tumor.bam -n ./example/Normal.bam -r ./example/RNA.bam -f ./reference.fa -o ./res3
->The bam file should be alligned based on GRCH38. If you input bam file, Texomer will run longer time because it needs to call mutation from bam file.
+>The bam file should be aligned based on GRCH38. 
+>If you input bam files, Texomer will run longer because it needs to call mutations from the bam files.
 
 
-**Texomer output:**
+**Texomer output**
 
 *output.summaryres.txt*
 
@@ -221,7 +222,13 @@ if you want to only run Texomer on DNA:
 	chr1	149904572	151142541	11	0	11	0	11	0.00976386546342944
 
 
->**Dmajor:** Copy number of major allele. **Dminor:** Copy number of minor allele. **Rmajor:** Expressoin level of major allele. **Rminor:** Expression level of minor allele. **RTEL:** Total expression level of two alleles. **BayesP:** Posterior probability that expression level is discordant with copy number
+
+>- Dmajor: the DNA copy number of the major allele. 
+>- Dminor: the DNA copy number of the minor allele. 
+>- Rmajor: the RNA expressoin level of the major allele. 
+>- Rminor: the RNA expression level of the minor allele. 
+>- RTEL: the total RNA expression level of the two alleles. 
+>- BayesP: the posterior probability that the RNA expression level is discordant with the copy number level
 
 *output.mutations.txt*
 
@@ -229,4 +236,14 @@ if you want to only run Texomer on DNA:
 	chr1	14464	A	T	161	29	Germline	0	0.869112773207088	3	4.26647728279266	0.165069332450197	0.869112773207088	-2.29543007263941	-2.99135865987574
 	chr1	14677	G	A	562	275	Germline	0	0.565025922875357	3	3.23925254542283	0.0153830861293918	0.565025922875357	-2.51927198724942	-2.26822077283764
 
->**refNum:** Read counts of reference allele from RNA-seq data. **altNum:** Read counts of alernative allele from RNA-seq data. **type:** the type of mutation Germline or Somatic. **altD:** copy number of alternative allele. **altR:** expression level of alternative allele. **wildD:** copy number of reference allele (wildtype allele). **wildR:** expression level of reference allele (wildtype allele). **BayesP:** posterior probability that expression level is discordant with copy number. **eASEL:** difference of alternative allele between expression and copy number (altR-altD). **AEI:** difference of expression levels between alternative and reference allele (altR-wildR). **DACRE:** DACRE score
+>- refNum: read counts of the reference allele from RNA-seq data. 
+>- altNum: read counts of the alernative allele from the RNA-seq data. 
+>- type: the types of the mutation are either Germline or Somatic. 
+>- altD: the copy number of the alternative allele. 
+>- altR: the expression level of the alternative allele. 
+>- wildD: the copy number of the reference (wildtype) allele. 
+>- wildR: the expression level of the reference (wildtype) allele. 
+>- BayesP: the posterior probability that the RNA expression level is discordant with the DNA copy number level. 
+>- eASEL: difference between the expression and the copy number levels of the alternative allele (altR-altD) . 
+>- AEI: difference between the expression levels of the alternative and the reference alleles (altR-wildR). 
+>- DACRE: the differential allelic cis-regulatory score
