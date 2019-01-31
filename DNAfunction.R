@@ -672,11 +672,10 @@ TITANout<-function(DNAinput,chromosome){
 	results$AllelicRatio=as.numeric(results$AllelicRatio)
 	results$LogRatio=as.numeric(results$LogRatio)
 	segs <- outputTitanSegments(results, id = "test", convergeParams,filename=NULL)
-	segment=data.frame(chr=segs$Chromosome,stratpos=segs$Start_Position.bp.,endpos=segs$End_Position.bp.,nMajor=segs$MajorCN,nMinor=segs$MinorCN)
 	ploidy <- tail(convergeParams$phi, 1)
 	normal <- tail(convergeParams$n, 1)
 	#mean(as.numeric(segs$Cellular_Frequency[!is.na(segs$Cellular_Frequency)])*(1-normal))
-	DNAout=list(segment=segment,ploidy=ploidy,alpha=1-normal)
+	DNAout=list(segment=segs,ploidy=ploidy,alpha=1-normal)
 	return(DNAout)
 }
 
