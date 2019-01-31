@@ -54,6 +54,7 @@ ASCATout<-function(ASCATdata,sample,chromosome){
 	ACN=data.frame(nMajor=segment$nMajor,nMinor=segment$nMinor)
 	segment$nMajor=apply(ACN,1,max)
 	segment$nMinor=apply(ACN,1,min)
+	segment=data.frame(chr=segment$chr,startpos=segment$startpos,endpos=segment$endpos,nMajor=segment$nMajor,nMinor=segment$nMinor)
 	alpha=ascat.output$aberrantcellfraction
 	ploidy=ascat.output$ploidy
 	DNAout=list(alpha=alpha,segment=segment,ploidy=ploidy)
@@ -647,8 +648,16 @@ getMajorMinorCN <- function(state, symmetric = TRUE){
 	}
 	return(list(majorCN = majorCN, minorCN = minorCN))
 }
-TITANout<-function(DNAinput){
+TITANout<-function(DNAinput,chromosome){
+	DNAinput=DNAinput[DNAinput$nfrac>=0.2&DNAinput$nfrac<=0.8,]
+	rlength=nchar(as.character(DNAinput$ref))
+	alength=nchar(as.character(DNAinput$alt))
+	DNAinput=DNAinput[rlength==1&alength==1,]
 	titandata=data.frame(chr=DNAinput$chr,pos=DNAinput$pos,ref=DNAinput$ref,refCount=DNAinput$refNumT,Nref=DNAinput$alt,NrefCount=DNAinput$altNumT)
+	chro=intersect(chromosome,names(table(titandata$chr))[table(titandata$chr)>1])
+	index=match(as.character(titandata$chr),chro)
+	titandata=titandata[!is.na(index),]
+	DNAinput=DNAinput[!is.na(index),]
 	write.table(titandata,"TITAN.input",col.names=TRUE,row.names=FALSE,sep="\t",quote=FALSE)
 	numClusters <- 2
 	params <- loadDefaultParameters(copyNumber=5,numberClonalClusters=numClusters)
@@ -663,10 +672,11 @@ TITANout<-function(DNAinput){
 	results$AllelicRatio=as.numeric(results$AllelicRatio)
 	results$LogRatio=as.numeric(results$LogRatio)
 	segs <- outputTitanSegments(results, id = "test", convergeParams,filename=NULL)
+	segment=data.frame(chr=segs$Chromosome,stratpos=segs$Start_Position.bp.,endpos=segs$End_Position.bp.,nMajor=segs$MajorCN,nMinor=segs$MinorCN)
 	ploidy <- tail(convergeParams$phi, 1)
 	normal <- tail(convergeParams$n, 1)
-	mean(as.numeric(segs$Cellular_Frequency[!is.na(segs$Cellular_Frequency)])*(1-normal))
-	DNAout=list(segment=segs,ploidy=ploidy,alpha=1-normal)
+	#mean(as.numeric(segs$Cellular_Frequency[!is.na(segs$Cellular_Frequency)])*(1-normal))
+	DNAout=list(segment=segment,ploidy=ploidy,alpha=1-normal)
 	return(DNAout)
 }
 
@@ -705,7 +715,7 @@ DNACNA<-function(DNAinput,sample,tempth,chromosome,i){
 		return(ASCATres)
 	}else if (i==2){
 		registerDoMC(cores = 4)
-		TITANres<-try(TITANout(DNAinput=DNAinput),silent=TRUE)
+		TITANres<-try(TITANout(DNAinput=DNAinput,chromosome=chromosome),silent=TRUE)
 		return (TITANres)
 	}else if (i ==3){
 		FACETSres<-try(FACETSout(DNAinput=DNAinput),silent=TRUE)
@@ -844,9 +854,9 @@ DNArun<-function(SNPinput,somaticinput,sample,temppath){
 		times=1000
 		res=foreach(i = 1:4) %dopar% DNACNA(DNAinput=DNAinput,sample=sample,tempth=temppath,chromosome=chromosome,i)
 		print.noquote("Somatic mutation copy number")
-		somaticres<-foreach(i =1:4) %dopar% somaticCN(res=res,i,somaticdata=somaticdata,method=methods)
+		somaticres<-foreach(i =1:length(res)) %dopar% somaticCN(res=res,i,somaticdata=somaticdata,method=methods)
 		somaticindex=0
-		for (i in 1:4){
+		for (i in 1:length(somaticres)){
 			if (!is.null(somaticres[[i]])){
 				if (dim(somaticres[[i]])[1]>0){
 					somaticindex=1
@@ -855,15 +865,15 @@ DNArun<-function(SNPinput,somaticinput,sample,temppath){
 			}
 		}
 		if (somaticindex!=0){
-			randomdata<-foreach(i=1:4) %dopar% randomSample(data=data.frame(Tsum=somaticres[[i]]$Tsum,tfrac=somaticres[[i]]$tfrac),times=times)
-			randomout<-foreach(i =1:4) %dopar% randomCN(res,i,randomdata,somaticres,method=methods)
-			aveDIF<-foreach(i=1:4) %dopar% randomDIF(randomout,somaticres,i)
-			realDIF<-foreach(i=1:4) %dopar% realDiff(somaticres,i)
-			realsub<-foreach(i=1:4) %dopar% realSub(somaticres,i)
-			randomsub<-foreach(i = 1:4) %dopar% subcloneP(x=randomout[[i]])
+			randomdata<-foreach(i=1:length(somaticres)) %dopar% randomSample(data=data.frame(Tsum=somaticres[[i]]$Tsum,tfrac=somaticres[[i]]$tfrac),times=times)
+			randomout<-foreach(i =1:length(somaticres)) %dopar% randomCN(res,i,randomdata,somaticres,method=methods)
+			aveDIF<-foreach(i=1:length(somaticres)) %dopar% randomDIF(randomout,somaticres,i)
+			realDIF<-foreach(i=1:length(somaticres)) %dopar% realDiff(somaticres,i)
+			realsub<-foreach(i=1:length(somaticres)) %dopar% realSub(somaticres,i)
+			randomsub<-foreach(i = 1:length(somaticres)) %dopar% subcloneP(x=randomout[[i]])
 			PDl=list()
 			PSl=list()
-			for (i in 1:4){
+			for (i in 1:length(realDIF)){
 				if (!is.null(realDIF[[i]])){
 					PDl[[i]]=1-length(aveDIF[[i]][aveDIF[[i]]>=realDIF[[i]]])/length(aveDIF[[i]])
 					PSl[[i]]=length(randomsub[[i]][randomsub[[i]]<sum(somaticres[[i]]$SACN==0)])/times
@@ -871,7 +881,7 @@ DNArun<-function(SNPinput,somaticinput,sample,temppath){
 			}
 			modelindex=c()
 			k=1
-			for (i in 1:4){
+			for (i in 1:length(PDl)){
 				if (!is.null(PDl[[i]])){
 					if(!is.na(PDl[[i]])){
 						modelindex[k]=i
@@ -1143,7 +1153,7 @@ DNArun1<-function(SNPinput,somaticinput,sample,temppath){
 		}else{
 			DNAres=list()
 			k=1
-			for (i in 1:4){
+			for (i in 1:length(res)){
 				if (mode(res[[i]])=="list"){
 					if (!is.null(res[[i]]$alpha)){
 						res[[i]]$method=methods[i]
@@ -1263,6 +1273,22 @@ altalle<-function(x){
   }
 }
 
+WGD<-function(segment,SNPinput){
+	DNAinput=read.csv(SNPinput,sep="\t",header=TRUE)
+	colnames(DNAinput)=c("chr","pos","ref","alt","refNumN","altNumN","refNumT","altNumT")
+	segment$TCN=segment$Dmajor+segment$Dminor
+	if (dim(segment)[1]==1){
+		subdata=DNAinput[DNAinput$chr==as.character(segment$chr)&DNAinput$pos>=segment$start&DNAinput$pos<=segment$end,]
+		ll=dim(DNAinput)[1]
+		gdouble=dim(subdata)[1]
+	}else{
+		ll=sum(as.numeric(segment$end-segment$start))
+		gdouble=sum(as.numeric(segment$end[segment$TCN>2]-segment$start[segment$TCN>2]))
+	}
+	
+	return(gdouble/ll)
+
+}
 DACRE<-function(resout){
 	germ=resout[resout$type=="Germline",]
 	germ1=do.call(rbind,apply(germ[,8:10],1,altalle))

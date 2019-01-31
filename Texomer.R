@@ -40,7 +40,12 @@ if (length(args)==6){
 		heterogeneity=DNAout$heterogeneity
 		DNApurity=DNAout$alpha
 		ploidy=DNAout$ploidy
-		summaryres=rbind(c("DNApurity",DNApurity),c("Heterogeneity",heterogeneity),c("Ploidy",ploidy))
+		segment=DNAout$segment
+		colnames(segment)=c("chr","start","end","Dmajor","Dminor")
+		somatic=DNAout$somatic
+		WGDs=WGD(segment,SNPinput)
+		summaryres=rbind(c("DNApurity",DNApurity),c("Heterogeneity",heterogeneity),c("Ploidy",ploidy),c("WGD",WGDs))
+		print.noquote(paste("The initial method = ",DNAout$method,sep=""))
 		if (RNAinput=="NA"){
 			segment=DNAout$segment
 			somatic=DNAout$somatic

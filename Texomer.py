@@ -270,7 +270,7 @@ def main():
     elif options.Input == "BAM":
         if options.Tumor and options.Normal:
             if not options.reference:
-                print "Please input the location of refereence sequence through -f."
+                print "Please input the location of reference sequence through -f."
                 sys.exit(1)
             else:
                 ref=options.reference
