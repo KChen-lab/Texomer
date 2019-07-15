@@ -1,5 +1,5 @@
 # TODO: Add comment
-# 
+#
 # Author: FWang9
 ###############################################################################
 
@@ -61,7 +61,7 @@ ASCATout<-function(ASCATdata,sample,chromosome){
 	#save(DNAout,file=paste(sample,".somaticCN.Rdata",sep=""))
 	return(DNAout)
 }
-####part 1 end 
+####part 1 end
 #############################################################################################################
 #############################################################################################################
 ####part 2: estimate the copy number of somatic mutation and iterative optimization
@@ -80,126 +80,122 @@ MCN<-function(alpha,segment,somatic){
 	return(somaticnew)
 }
 #MutPlot: plot the copy number of somatic mutation
-MutPlot<-function(segment,data,plotname,index){
+MutPlot<-function(segment,data,plotname="SNV.CNV.pdf"){
 	pdf(plotname,width=20,height=7)
-	d=sum(segment$endpos-segment$startpos)
-	nMajor=max(segment$nMajor,segment$nMinor,data$SMCN)
+	d=sum(as.numeric(segment$end)-as.numeric(segment$start))
+	nMajor=max(segment$Dmajor,segment$Dminor,data$altD)
 	plot(0,0,col="white",xlim=c(0,d),ylim=c(0,nMajor),xlab="",ylab="Absolute copy number",main="",axes=FALSE)
-	chro=unique(segment$chr)
+	chro=as.character(unique(segment$chr))
 	axisindex=0
 	for (j in 1:length(chro)){
 		subseg=segment[segment$chr==chro[j],]
-		subd=sum(subseg$endpos-subseg$startpos)
-		subsomatic=data[data$chr==chro[j],]
+		subd=sum(subseg$end-subseg$start)
+		subsomatic=data[data$chr==chro[j]&data$type=="Somatic",]
 		for (k in 1:dim(subseg)[1]){
-			subsom=subsomatic[subsomatic$pos>=subseg$startpos[k]&subsomatic$pos<=subseg$endpos[k],]
-			subsom$index=subsom$pos-subseg$startpos[k]
-			if (index==1){
-				points(subsom$index+axisindex,subsom$SACN,pch=20,col=rgb(0,0,1,alpha=0.7),cex=1.2)
-			}
-			else{
-				points(subsom$index+axisindex,subsom$SMCN,pch=20,col=rgb(0,0,1,alpha=0.7),cex=1.2)
-			}
-			if (subseg$nMajor[k]==subseg$nMinor[k]){
-				x=c(axisindex,axisindex+subseg$endpos[k]-subseg$startpos[k])
-				y1=rep(subseg$nMajor[k]-0.1,length(x))
+			subsom=subsomatic[subsomatic$pos>=subseg$start[k]&subsomatic$pos<=subseg$end[k],]
+			subsom$index=subsom$pos-subseg$start[k]
+			#points(subsom$index+axisindex,subsom$SACN,pch=20,col=rgb(0,0,1,alpha=0.7),cex=1.2)
+			points(subsom$index+axisindex,subsom$altD,pch=20,col=rgb(0,0,1,alpha=0.7),cex=1.2)
+			if (subseg$Dmajor[k]==subseg$Dminor[k]){
+				x=c(axisindex,axisindex+subseg$end[k]-subseg$start[k])
+				y1=rep(subseg$Dmajor[k]-0.1,length(x))
 				lines(x,y1,col="purple",lwd=2)
-				y2=rep(subseg$nMajor[k]+0.1,length(x))
+				y2=rep(subseg$Dmajor[k]+0.1,length(x))
 				lines(x,y2,col="purple",lwd=2)
-				z=c(subseg$nMajor[k]-0.1,subseg$nMajor[k]+0.1)
+				z=c(subseg$Dmajor[k]-0.1,subseg$Dmajor[k]+0.1)
 				x1=c(axisindex,axisindex)
 				lines(x1,z,col="purple",lwd=2)
-				x2=c(axisindex+subseg$endpos[k]-subseg$startpos[k],axisindex+subseg$endpos[k]-subseg$startpos[k])
+				x2=c(axisindex+subseg$end[k]-subseg$start[k],axisindex+subseg$end[k]-subseg$start[k])
 				lines(x2,z,col="purple",lwd=2)
 			}else{
-				x=c(axisindex,axisindex+subseg$endpos[k]-subseg$startpos[k])
-				y1=rep(subseg$nMajor[k]-0.1,length(x))
+				x=c(axisindex,axisindex+subseg$end[k]-subseg$start[k])
+				y1=rep(subseg$Dmajor[k]-0.1,length(x))
 				lines(x,y1,col="red",lwd=2)
-				y2=rep(subseg$nMajor[k]+0.1,length(x))
+				y2=rep(subseg$Dmajor[k]+0.1,length(x))
 				lines(x,y2,col="red",lwd=2)
-				z=c(subseg$nMajor[k]-0.1,subseg$nMajor[k]+0.1)
+				z=c(subseg$Dmajor[k]-0.1,subseg$Dmajor[k]+0.1)
 				x1=c(axisindex,axisindex)
 				lines(x1,z,col="red",lwd=2)
-				x2=c(axisindex+subseg$endpos[k]-subseg$startpos[k],axisindex+subseg$endpos[k]-subseg$startpos[k])
+				x2=c(axisindex+subseg$end[k]-subseg$start[k],axisindex+subseg$end[k]-subseg$start[k])
 				lines(x2,z,col="red",lwd=2)
-				y11=rep(subseg$nMinor[k]-0.1,length(x))
+				y11=rep(subseg$Dminor[k]-0.1,length(x))
 				lines(x,y11,col="green",lwd=2)
-				y21=rep(subseg$nMinor[k]+0.1,length(x))
+				y21=rep(subseg$Dminor[k]+0.1,length(x))
 				lines(x,y21,col="green",lwd=2)
-				z=c(subseg$nMinor[k]-0.1,subseg$nMinor[k]+0.1)
+				z=c(subseg$Dminor[k]-0.1,subseg$Dminor[k]+0.1)
 				lines(x1,z,col="green",lwd=2)
 				lines(x2,z,col="green",lwd=2)
 			}
-			axisindex=axisindex+subseg$endpos[k]-subseg$startpos[k]+1	
+			axisindex=axisindex+subseg$end[k]-subseg$start[k]+1
 		}
 		abline(v=axisindex-1,col="gray")
-		text((axisindex-1-sum(subseg$endpos-subseg$startpos)+axisindex-1)/2,nMajor,substr(chro[j],4,nchar(chro[j])))
+		text((axisindex-1-sum(subseg$end-subseg$start)+axisindex-1)/2,nMajor,substr(chro[j],4,nchar(chro[j])))
 	}
 	axis(side=2)
 	dev.off()
 }
 
-SNPplot<-function(segment,data,plotname,index,alpha){
-	pdf(plotname,width=20,height=7)
-	d=sum(segment$endpos-segment$startpos)
-	nMajor=max(segment$nMajor,segment$nMinor,data$SMCN)
-	plot(0,0,col="white",xlim=c(0,d),ylim=c(0,nMajor),xlab="",ylab="Absolute copy number",main="",axes=FALSE)
-	chro=unique(segment$chr)
-	axisindex=0
-	for (j in 1:length(chro)){
-		subseg=segment[segment$chr==chro[j],]
-		subd=sum(subseg$endpos-subseg$startpos)
-		subsomatic=data[data$chr==chro[j],]
-		for (k in 1:dim(subseg)[1]){
-			subsom=subsomatic[subsomatic$pos>=subseg$startpos[k]&subsomatic$pos<=subseg$endpos[k],]
-			TCN=subseg$nMajor[k]+subseg$nMinor[k]
-			subsom$SMCN=(subsom$tfrac*(2*(1-alpha)+alpha*TCN)-(1-alpha))/alpha
-			subsom$SACN=round(subsom$SMCN)
-			subsom$index=subsom$pos-subseg$startpos[k]
-			if (index==1){
-				points(subsom$index+axisindex,subsom$SACN,pch=20,col=rgb(0,0,1,alpha=0.7),cex=1.2)
-			}
-			else{
-				points(subsom$index+axisindex,subsom$SMCN,pch=20,col=rgb(0,0,1,alpha=0.7),cex=1.2)
-			}
-			if (subseg$nMajor[k]==subseg$nMinor[k]){
-				x=c(axisindex,axisindex+subseg$endpos[k]-subseg$startpos[k])
-				y1=rep(subseg$nMajor[k]-0.1,length(x))
-				lines(x,y1,col="purple",lwd=2)
-				y2=rep(subseg$nMajor[k]+0.1,length(x))
-				lines(x,y2,col="purple",lwd=2)
-				z=c(subseg$nMajor[k]-0.1,subseg$nMajor[k]+0.1)
-				x1=c(axisindex,axisindex)
-				lines(x1,z,col="purple",lwd=2)
-				x2=c(axisindex+subseg$endpos[k]-subseg$startpos[k],axisindex+subseg$endpos[k]-subseg$startpos[k])
-				lines(x2,z,col="purple",lwd=2)
-			}else{
-				x=c(axisindex,axisindex+subseg$endpos[k]-subseg$startpos[k])
-				y1=rep(subseg$nMajor[k]-0.1,length(x))
-				lines(x,y1,col="red",lwd=2)
-				y2=rep(subseg$nMajor[k]+0.1,length(x))
-				lines(x,y2,col="red",lwd=2)
-				z=c(subseg$nMajor[k]-0.1,subseg$nMajor[k]+0.1)
-				x1=c(axisindex,axisindex)
-				lines(x1,z,col="red",lwd=2)
-				x2=c(axisindex+subseg$endpos[k]-subseg$startpos[k],axisindex+subseg$endpos[k]-subseg$startpos[k])
-				lines(x2,z,col="red",lwd=2)
-				y11=rep(subseg$nMinor[k]-0.1,length(x))
-				lines(x,y11,col="green",lwd=2)
-				y21=rep(subseg$nMinor[k]+0.1,length(x))
-				lines(x,y21,col="green",lwd=2)
-				z=c(subseg$nMinor[k]-0.1,subseg$nMinor[k]+0.1)
-				lines(x1,z,col="green",lwd=2)
-				lines(x2,z,col="green",lwd=2)
-			}
-			axisindex=axisindex+subseg$endpos[k]-subseg$startpos[k]+1	
-		}
-		abline(v=axisindex-1,col="gray")
-		text((axisindex-1-sum(subseg$endpos-subseg$startpos)+axisindex-1)/2,nMajor,substr(chro[j],4,nchar(chro[j])))
-	}
-	axis(side=2)
-	dev.off()
-}
+#SNPplot<-function(segment,data,plotname,index,alpha){
+#	pdf(plotname,width=20,height=7)
+#	d=sum(segment$endpos-segment$startpos)
+#	nMajor=max(segment$nMajor,segment$nMinor,data$SMCN)
+#	plot(0,0,col="white",xlim=c(0,d),ylim=c(0,nMajor),xlab="",ylab="Absolute copy number",main="",axes=FALSE)
+#	chro=unique(segment$chr)
+#	axisindex=0
+#	for (j in 1:length(chro)){
+#		subseg=segment[segment$chr==chro[j],]
+#		subd=sum(subseg$endpos-subseg$startpos)
+#		subsomatic=data[data$chr==chro[j],]
+#		for (k in 1:dim(subseg)[1]){
+#			subsom=subsomatic[subsomatic$pos>=subseg$startpos[k]&subsomatic$pos<=subseg$endpos[k],]
+#			TCN=subseg$nMajor[k]+subseg$nMinor[k]
+#			subsom$SMCN=(subsom$tfrac*(2*(1-alpha)+alpha*TCN)-(1-alpha))/alpha
+#			subsom$SACN=round(subsom$SMCN)
+#			subsom$index=subsom$pos-subseg$startpos[k]
+#			if (index==1){
+#				points(subsom$index+axisindex,subsom$SACN,pch=20,col=rgb(0,0,1,alpha=0.7),cex=1.2)
+#			}
+#			else{
+#				points(subsom$index+axisindex,subsom$SMCN,pch=20,col=rgb(0,0,1,alpha=0.7),cex=1.2)
+#			}
+#			if (subseg$nMajor[k]==subseg$nMinor[k]){
+#				x=c(axisindex,axisindex+subseg$endpos[k]-subseg$startpos[k])
+#				y1=rep(subseg$nMajor[k]-0.1,length(x))
+#				lines(x,y1,col="purple",lwd=2)
+#				y2=rep(subseg$nMajor[k]+0.1,length(x))
+#				lines(x,y2,col="purple",lwd=2)
+#				z=c(subseg$nMajor[k]-0.1,subseg$nMajor[k]+0.1)
+#				x1=c(axisindex,axisindex)
+#				lines(x1,z,col="purple",lwd=2)
+#				x2=c(axisindex+subseg$endpos[k]-subseg$startpos[k],axisindex+subseg$endpos[k]-subseg$startpos[k])
+#				lines(x2,z,col="purple",lwd=2)
+#			}else{
+#				x=c(axisindex,axisindex+subseg$endpos[k]-subseg$startpos[k])
+#				y1=rep(subseg$nMajor[k]-0.1,length(x))
+#				lines(x,y1,col="red",lwd=2)
+#				y2=rep(subseg$nMajor[k]+0.1,length(x))
+#				lines(x,y2,col="red",lwd=2)
+#				z=c(subseg$nMajor[k]-0.1,subseg$nMajor[k]+0.1)
+#				x1=c(axisindex,axisindex)
+#				lines(x1,z,col="red",lwd=2)
+#				x2=c(axisindex+subseg$endpos[k]-subseg$startpos[k],axisindex+subseg$endpos[k]-subseg$startpos[k])
+#				lines(x2,z,col="red",lwd=2)
+#				y11=rep(subseg$nMinor[k]-0.1,length(x))
+#				lines(x,y11,col="green",lwd=2)
+#				y21=rep(subseg$nMinor[k]+0.1,length(x))
+#				lines(x,y21,col="green",lwd=2)
+#				z=c(subseg$nMinor[k]-0.1,subseg$nMinor[k]+0.1)
+#				lines(x1,z,col="green",lwd=2)
+#				lines(x2,z,col="green",lwd=2)
+#			}
+#			axisindex=axisindex+subseg$endpos[k]-subseg$startpos[k]+1
+#		}
+#		abline(v=axisindex-1,col="gray")
+#		text((axisindex-1-sum(subseg$endpos-subseg$startpos)+axisindex-1)/2,nMajor,substr(chro[j],4,nchar(chro[j])))
+#	}
+#	axis(side=2)
+#	dev.off()
+#}
 #randomBinom: random sampling based on binomial distribution
 randomBinom<-function(y,times){
 	return(rbinom(times,y[1],y[2]))
@@ -218,7 +214,7 @@ RMCN<-function(R,somatic,alpha,segment){
 	randomres=MCN(alpha,segment,somatic=randomsomatic)
 	return(randomres$SMCN)
 }
-#difCN: calculated the difference between allelic copy number and integer copy number 
+#difCN: calculated the difference between allelic copy number and integer copy number
 difCN<-function(x){
 	dif=abs(x-round(x))
 	return(dif)
@@ -238,7 +234,7 @@ somaticPurity<-function(somatic,segment,DNAalpha){
 			alpha1=2*subdata$tfrac/(2*subdata$tfrac+subdata$SACN-subdata$tfrac*TCN)
 			alpha_up=c(alpha_up,alpha1)
 		}
-		
+
 	}
 	alpha_up=alpha_up[!is.na(alpha_up)&alpha_up!=Inf]
 	if (length(alpha_up)<=1){
@@ -251,7 +247,7 @@ somaticPurity<-function(somatic,segment,DNAalpha){
 					alpha1=DNAalpha
 				}
 			}
-		
+
 	}else{
 		alpha1=density(alpha_up)$x[which.max(density(alpha_up)$y)]
 		if (alpha1 > 1 | alpha1 < 0){
@@ -265,13 +261,13 @@ somaticPurity<-function(somatic,segment,DNAalpha){
 			}else{
 				alpha1=DNAalpha
 			}
-			
+
 		}
 	}
-	
+
 	return(alpha1)
 }
-##CNopt: determine the optimal copy number for each segment among mang candiate CNs 
+##CNopt: determine the optimal copy number for each segment among mang candiate CNs
 CNpeak<-function(CN){
 	peak=c()
 	peakvalue=c()
@@ -299,7 +295,7 @@ CNpeak<-function(CN){
 CNopt<-function(data,expBAF){
 	dbetabinom(data$y,f1,data$N,theta,log=FALSE)
 }
-##upACN: update the copy number of segment and ploidy based on germline mutation 
+##upACN: update the copy number of segment and ploidy based on germline mutation
 upACN<-function(data,segment,alpha){
 	ploidy=c()
 	for (j in 1:dim(segment)[1]){
@@ -324,8 +320,8 @@ upACN<-function(data,segment,alpha){
 									lCN=lCN1
 								}
 							}
-							
-						}	
+
+						}
 					}
 				}
 				if (length(sCN)!=0){
@@ -468,7 +464,7 @@ iterOPT<-function(SNP,somatic,segment,realDIF,realsub,randomdata,times,PD,PS,DNA
 			print.noquote(paste("p value = ",p,sep=""))
 			return(out)
 		}
-		
+
 	}
 }
 sequenzRun<-function(data,sample,chromosome){
@@ -540,12 +536,12 @@ outputTitanSegments <- function(results, id, convergeParams, filename = NULL, ig
 	rleLengths <- unlist(rleResults[, "lengths"])
 	rleValues <- unlist(rleResults[, "values"])
 	numSegs <- length(rleLengths)
-	
+
 	# convert allelic ratio to symmetric ratios #
 	results$AllelicRatio <- apply(cbind(results$AllelicRatio, 1-results$AllelicRatio), 1, max, na.rm = TRUE)
-	
-	segs <- as.data.frame(matrix(NA, ncol = 14, nrow = numSegs, 
-					dimnames = list(c(), c("Sample", "Chromosome", "Start_Position.bp.", "End_Position.bp.", 
+
+	segs <- as.data.frame(matrix(NA, ncol = 14, nrow = numSegs,
+					dimnames = list(c(), c("Sample", "Chromosome", "Start_Position.bp.", "End_Position.bp.",
 									"Length.snp.", "Median_Ratio", "Median_logR", "TITAN_state", "TITAN_call", "Copy_Number",
 									"MinorCN", "MajorCN", "Clonal_Cluster", "Cellular_Frequency"))))
 	segs$Sample <- id
@@ -573,7 +569,7 @@ outputTitanSegments <- function(results, id, convergeParams, filename = NULL, ig
 			segs[j, "Length.snp."] <- numR
 		}else{ # segDF contains 2 different chromosomes
 			print(j)
-		}                                      
+		}
 	}
 	if (!is.null(filename)){
 		# write out detailed segment file #
@@ -581,7 +577,7 @@ outputTitanSegments <- function(results, id, convergeParams, filename = NULL, ig
 	}
 	# write out IGV seg file #
 	if (!is.null(igvfilename)){
-		igv <- segs[, c("Sample", "Chromosome", "Start_Position.bp.", 
+		igv <- segs[, c("Sample", "Chromosome", "Start_Position.bp.",
 						"End_Position.bp.", "Length.snp.", "Median_logR")]
 		colnames(igv) <- c("sample", "chr", "start", "end", "num.snps", "median.logR")
 		write.table(igv, file = igvfilename, col.names = TRUE, row.names = FALSE, quote = FALSE, sep = "\t")
@@ -644,7 +640,7 @@ getMajorMinorCN <- function(state, symmetric = TRUE){
 			majorCN = 4; minorCN = 4;
 		}
 	}else{
-		#stop("symmetric=FALSE not yet supported.")	
+		#stop("symmetric=FALSE not yet supported.")
 	}
 	return(list(majorCN = majorCN, minorCN = minorCN))
 }
@@ -694,7 +690,7 @@ FACETSout<-function(DNAinput){
 		segment=segment[!is.na(segment$nMajor)&!is.na(segment$nMinor)&segment$nMajor!=0&segment$nMinor!=0,]
 		DNAout=list(alpha=alpha,segment=segment,ploidy=ploidy)
 		return (DNAout)
-	}	
+	}
 }
 ASCATrun<-function(DNAinput,sample,chromosome){
 	ASCATdata=ASCATin(data=DNAinput,sample=sample)
@@ -703,7 +699,7 @@ ASCATrun<-function(DNAinput,sample,chromosome){
 	if (mode(ASCATres)=="list"){
 		return(ASCATres)
 	}
-	
+
 }
 
 
@@ -798,13 +794,13 @@ realDiff<-function(somaticres,i){
 	if (!is.null(somaticres[[i]])){
 		realDIF=sum(abs(somaticres[[i]]$SMCN-somaticres[[i]]$SACN))/dim(somaticres[[i]])[1]
 		return(realDIF)
-	}	
+	}
 }
 realSub<-function(somaticres,i){
 	if (!is.null(somaticres[[i]])){
 		realsub=sum(somaticres[[i]]$SACN==0)/dim(somaticres[[i]])[1]
 		return(realsub)
-	}	
+	}
 }
 subcloneP<-function(x){
 	sub0<-function(y){
@@ -965,7 +961,7 @@ DNArun<-function(SNPinput,somaticinput,sample,temppath){
 			}else{
 				return(DNAout)
 			}
-		
+
 		}else{
 			DNAres=list()
 			k=1
@@ -987,8 +983,8 @@ DNArun<-function(SNPinput,somaticinput,sample,temppath){
 		}
 	}else{
 			print.noquote(paste(sample,":Germline data is insuccifient",sep=""))
-	}	
-	
+	}
+
 }
 
 
@@ -1170,7 +1166,7 @@ DNArun1<-function(SNPinput,somaticinput,sample,temppath){
 		}
 	}else{
 			print.noquote(paste(sample,":Germline data is insuccifient",sep=""))
-	}	
+	}
 
 }
 
@@ -1207,7 +1203,7 @@ Heterogeneity<-function(DNAout){
 	}
 	return(DNAout)
 }
-	
+
 
 ###############################################
 wildtype<-function(data,segment,type,resout){
@@ -1284,7 +1280,7 @@ WGD<-function(segment,SNPinput){
 		ll=sum(as.numeric(segment$end-segment$start))
 		gdouble=sum(as.numeric(segment$end[segment$TCN>2]-segment$start[segment$TCN>2]))
 	}
-	
+
 	return(gdouble/ll)
 
 }
