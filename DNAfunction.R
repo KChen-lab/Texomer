@@ -80,11 +80,14 @@ MCN<-function(alpha,segment,somatic){
 	return(somaticnew)
 }
 #MutPlot: plot the copy number of somatic mutation
-MutPlot<-function(segment,data,plotname="SNV.CNV.pdf"){
+MutPlot<-function(segment,summaryres,data,plotname="SNV.CNV.pdf"){
+	purity=round(summaryres[1,2],2)
+	Heterogeneity=round(summaryres[2,2],2)
+	ploidy=round(summaryres[3,2],2)
 	pdf(plotname,width=20,height=7)
 	d=sum(as.numeric(segment$end)-as.numeric(segment$start))
 	nMajor=max(segment$Dmajor,segment$Dminor,data$altD)
-	plot(0,0,col="white",xlim=c(0,d),ylim=c(0,nMajor),xlab="",ylab="Absolute copy number",main="",axes=FALSE)
+	plot(0,0,col="white",xlim=c(0,d),ylim=c(0,nMajor),xlab="",ylab="Absolute copy number",main=paste("Purity = ",purity,", Heterogeneity = ",Heterogeneity,", Ploidy = ",ploidy,sep=""),axes=FALSE)
 	chro=as.character(unique(segment$chr))
 	axisindex=0
 	for (j in 1:length(chro)){
