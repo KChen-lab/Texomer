@@ -80,7 +80,10 @@ MCN<-function(alpha,segment,somatic){
 	return(somaticnew)
 }
 #MutPlot: plot the copy number of somatic mutation
-MutPlot<-function(segment,summaryres,data,plotname="SNV.CNV.pdf"){
+MutPlot<-function(segment,summaryres,mutation,plotname="SNV.CNV.pdf"){
+	segment=read.csv(segment,sep="\t")
+	summaryres=read.csv(summaryres,sep="\t",header=F)
+	data=read.csv(mutation,sep="\t")
 	purity=round(summaryres[1,2],2)
 	Heterogeneity=round(summaryres[2,2],2)
 	ploidy=round(summaryres[3,2],2)
