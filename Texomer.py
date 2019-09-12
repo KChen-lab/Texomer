@@ -129,21 +129,22 @@ def SNVexp(germline,somatic,samfile,outputname,case,bedtools):
             read.setdefault(chr+":"+str(pos),[]).append("ALT\t"+readid)
     snpdata.close()
     for chromosome in chrom:
-        temppos=sorted(list(set(SNPpos[str(chromosome)])))
-        temp=SNV[str(chromosome)]
-        for key in temppos:
-            type=temp[key].split(":")[0]
-            ref=temp[key].split(":")[1]
-            alt=temp[key].split(":")[2]
-            nref=0
-            nalt=0
-            for id in list(set(read[str(chromosome)+":"+str(key)])):
-                if "REF\t" in id:
-                    nref=nref+1
-                elif "ALT\t" in id:
-                    nalt=nalt+1
-            out=str(chromosome)+"\t"+str(key)+"\t"+ref+"\t"+alt+"\t"+str(nref)+"\t"+str(nalt)+"\t"+type
-            print >> output,out
+        if SNPpos.has_key(str(chromosome)):
+            temppos=sorted(list(set(SNPpos[str(chromosome)])))
+            temp=SNV[str(chromosome)]
+            for key in temppos:
+                type=temp[key].split(":")[0]
+                ref=temp[key].split(":")[1]
+                alt=temp[key].split(":")[2]
+                nref=0
+                nalt=0
+                for id in list(set(read[str(chromosome)+":"+str(key)])):
+                    if "REF\t" in id:
+                        nref=nref+1
+                    elif "ALT\t" in id:
+                        nalt=nalt+1
+                out=str(chromosome)+"\t"+str(key)+"\t"+ref+"\t"+alt+"\t"+str(nref)+"\t"+str(nalt)+"\t"+type
+                print >> output,out
     output.close()
 def datatrans(input,output):
     data=open(input)
