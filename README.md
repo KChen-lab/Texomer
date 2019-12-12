@@ -138,7 +138,8 @@ If the input includes a RNA input file, Texomer would generate output at both DN
 
 	(3) output.summaryres.txt file:
 		tumor purity at the DNA and/or the RNA level;
-		ploidy and intra-tumor heterogeneity at the DNA level
+		ploidy and intra-tumor heterogeneity at the DNA level;
+		whole genome doubling (WGD) estimates the proportion of amplified genomic region.
 
 Run Texomer:
 ***The python script for easy run of Texomer is in the release directory. You can tune the
