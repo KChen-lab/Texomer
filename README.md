@@ -209,6 +209,7 @@ if you want to run Texomer on only the DNA data:
 	Heterogeneity	0.362166913670839
 	Ploidy	2.43420373296619
 	RNApurity	0.333623992547959
+	WGD 0.33
 
 *output.segment.txt*
 
