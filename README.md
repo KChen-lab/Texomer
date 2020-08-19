@@ -9,6 +9,16 @@ Texomer is a statistical tool designed to perform allele-specific, tumor-deconvo
 
 If the input includes only the bulk DNA data, Texomer will output only estimates at the DNA level.
 
+Publication
+===========
+Nature Methods volume 16, pages401–404 (2019)
+Brief Communication
+Published: 15 April 2019
+Integrated transcriptomic–genomic tool Texomer profiles cancer tissues
+
+Fang Wang, Shaojun Zhang, Tae-Beom Kim, Yu-yu Lin, Ramiz Iqbal, Zixing Wang, Vakul Mohanty, Kanishka Sircar, Jose A. Karam, Michael C. Wendl, Funda Meric-Bernstam, John N. Weinstein, Li Ding, Gordon B. Mills & Ken Chen 
+
+
 System requirements and dependency
 ==================================
 Texomer runs on a x86_64 Linux system, Python 2.7. It depends on samtools and bedtools to extract reads covering variant sites from WTS data.
