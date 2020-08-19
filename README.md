@@ -12,6 +12,7 @@ If the input includes only the bulk DNA data, Texomer will output only estimates
 Publication
 ===========
 Nature Methods volume 16, pages401–404
+https://www.nature.com/articles/s41592-019-0388-9
 
 Brief Communication
 Published: 15 April 2019
